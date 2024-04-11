@@ -26,9 +26,14 @@ module.exports = {
           {
             loader: 'css-loader',
           },
-          {
-            loader: "sass-loader",
-          },
+        ],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          "sass-loader",
         ],
       },
     ],
@@ -50,7 +55,7 @@ module.exports = {
       ],
     }),
     new FaviconsWebpackPlugin({
-      logo: 'src/public/images/icon/favicon.png',
+      logo: 'src/public/images/icon/logo-only-icon.png',
       mode: 'webapp',
       devMode: 'webapp',
       favicons: {
