@@ -78,6 +78,11 @@
           <div class="card-img">
             <img src="" alt="" onerror="this.src = './images/assets/error-pict-landscape.png'">
           </div>
+          <div class="card-header">
+            <span id="restaurant-location">Lokasi</span>
+            <h3 id="restaurant-name">Nama</h3>
+            <span id="restaurant-rating">5.0</span>
+          </div>
           <div class="card-description">
             <p>
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea quasi corporis nesciunt quas provident
@@ -96,13 +101,43 @@
     </footer>
   </div>
 
-  <template>
+  <template id="card-template">
     <div class="card">
       <div class="card-img">
-        <img src="" alt="" onerror="this.src = './images/assets/error-pict-landscape.png'">
+        <img src="" alt="" onerror="this.src = './images/assets/error-pict-landscape.png'" id="restaurant-img">
+      </div>
+      <div class="card-header">
+        <div class="restaurant-location-container">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span id="restaurant-location">Lokasi</span>
+        </div>
+        <h3 id="restaurant-name">Nama</h3>
+        <div id="rating-container">
+          <div class="rating-star">
+            <div class="empty-star">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </div>
+            <div class="fill-star">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </div>
+            (<span id="restaurant-rating">5.0</span>)
+          </div>
+        </div>
       </div>
       <div class="card-description">
-        <p></p>
+        <p id="restaurant-description">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea quasi corporis nesciunt quas provident
+          facilis nulla enim repudiandae incidunt at. Quia magnam nobis debitis nemo voluptas rerum praesentium odio
+          velit?
+        </p>
       </div>
       <div class="card-footer">
         <button>Kunjungi</button>

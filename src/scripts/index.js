@@ -3,11 +3,15 @@ import '../styles/main.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import $ from 'jquery';
 import restoJSON from '../public/data/DATA.json';
+import { RestaurantList } from "./RestaurantList.js";
+
+const restaurantList = new RestaurantList('.restaurant-list', '#card-template');
 
 document.addEventListener('DOMContentLoaded', () => {
-    listenDrawer()
-    listenTabIndex()
-    randomizeJumbotronContent()
+    listenDrawer();
+    listenTabIndex();
+    randomizeJumbotronContent();
+    renderList();
 })
 
 function listenTabIndex() {
@@ -51,6 +55,9 @@ function randomizeJumbotronContent() {
     jumbotronDesc.html(randomDesc);
 }
 
-function fetchJSON() {
-
+function renderList() {
+    restaurantList.removeAll()
+    restoJSON.restaurants.forEach((value) => {
+        restaurantList.add(value)
+    })
 }
