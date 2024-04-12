@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     listenTabIndex();
     randomizeJumbotronContent();
     renderList();
+    listenSearch()
 })
 
 function listenTabIndex() {
@@ -60,4 +61,44 @@ function renderList() {
     restoJSON.restaurants.forEach((value) => {
         restaurantList.add(value)
     })
+}
+
+function getRestaurantByKeyword(keyword) {
+    const results = restoJSON.restaurants.filter(restaurant => {
+        const nameMatch = restaurant.name.toLowerCase().includes(keyword.toLowerCase());
+        const cityMatch = restaurant.city.toLowerCase().includes(keyword.toLowerCase());
+        const descriptionMatch = restaurant.description.toLowerCase().includes(keyword.toLowerCase());
+
+        return nameMatch || cityMatch || descriptionMatch;
+    });
+
+    return results;
+}
+
+function listenSearch() {
+    const searchInput = $('.search-bar [name=search-resto]')
+
+    function searchAction(keyword) {
+        const result = getRestaurantByKeyword(keyword)
+        if (result.length > 0) {
+            restaurantList.removeAll()
+            result.forEach((value) => {
+                restaurantList.add(value)
+            })
+        } else {
+            restaurantList.setEmpty()
+        }
+    }
+
+    searchInput.on('keypress', function (event) {
+        if (event.which === 13) {
+            const keyword = $(this).val();
+            searchAction(keyword)
+
+        }
+    });
+    $('.search-bar [name=search-resto-submit-btn]').on('click', function (event) {
+        const keyword = searchInput.val()
+        searchAction(keyword)
+    });
 }
