@@ -64,7 +64,8 @@ a,
 
         &::before {
             content: '';
-            backdrop-filter: blur(10px);
+            // backdrop-filter: blur(10px);
+            background-color: $colorBody;
             position: absolute;
             top: 0;
             left: 0;
@@ -239,18 +240,21 @@ a,
 
         .restaurant-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 360px));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
             text-align: left;
             padding: 16px;
-            justify-content: center;
+            place-content: center;
 
             .card {
-                min-width: 220px;
+                // min-width: 220px;
                 width: 100%;
+                display: flex;
+                flex-direction: column;
 
                 .card-description {
                     margin: 10px 0;
+                    flex-grow: 1;
                 }
 
                 #restaurant-description {
@@ -258,8 +262,9 @@ a,
                 }
 
                 .card-img {
-                    max-height: 220px;
+                    // max-height: 220px;
                     overflow: hidden;
+                    aspect-ratio: 3 / 2;
                 }
 
                 #restaurant-img {
@@ -309,12 +314,55 @@ a,
                 #restaurant-name {
                     margin: 0;
                 }
+
+                .card-footer {
+                    display: flex;
+                    place-content: center;
+                    place-items: center;
+
+                    button {
+                        outline: none;
+                        border: none;
+                        background-color: #0d6efd;
+                        color: white;
+                        padding: .375rem .75rem;
+                        border-radius: .375rem;
+                        width: 50%;
+
+                        &:hover {
+                            background-color: #0b5ed7;
+                        }
+                    }
+                }
             }
         }
     }
 
     footer {
-        padding: 10px 20px;
+        position: relative;
+        height: fit-content;
+
+        path {
+            fill: #bb0404;
+        }
+
+        div {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            text-align: center;
+            width: 100%;
+            margin: 0;
+            bottom: 0;
+            margin-bottom: 3%;
+
+            p {
+                margin: 0;
+                height: fit-content;
+            }
+        }
     }
 }
 
@@ -377,7 +425,7 @@ a,
         p {
             overflow: hidden;
             text-overflow: ellipsis;
-            -webkit-line-clamp: 4;
+            -webkit-line-clamp: 5;
             display: -webkit-box;
             -webkit-box-orient: vertical;
             height: fit-content;
