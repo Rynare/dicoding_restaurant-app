@@ -28,7 +28,7 @@ class RestaurantList {
     add(datas) {
         const newCard = this.template.contents().clone(true); // Clone the template contents
         const rating = +datas.rating;
-        const starWidth = (rating / 5) * 100;
+        const starWidth = (rating / 5) * 100 - 3;
 
         newCard.find('#restaurant-img').attr('src', datas.pictureId);
         newCard.find('#restaurant-location').text(datas.city);

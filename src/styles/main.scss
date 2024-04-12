@@ -21,6 +21,9 @@ body {
     min-width: 100vw;
     max-width: 100vw;
     min-height: 100vh;
+    max-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
     scroll-behavior: smooth;
     background-color: $colorBody;
     color: white;
@@ -220,6 +223,11 @@ a,
                     justify-content: center;
 
                     .jumbotron-wave {
+                        width: 100%;
+                        display: flex;
+                    }
+
+                    svg {
                         width: 100%;
                     }
 
