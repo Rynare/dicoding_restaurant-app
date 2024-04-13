@@ -25,7 +25,11 @@ function listenTabIndex() {
     document.addEventListener('keydown', function (event) {
         const activeElement = document.activeElement;
         if (activeElement === event.target && isElementVisible(activeElement)) {
-            if (event.keyCode === 13 || event.keyCode === 32) {
+            if (
+                (event.keyCode === 13 || event.keyCode === 32)
+                && activeElement.getAttribute('tabindex') != null
+                && activeElement.getAttribute('tabindex') >= 0
+            ) {
                 event.preventDefault()
                 event.target.click();
             }
@@ -98,12 +102,12 @@ function listenSearch() {
     }
 
     searchInput.on('keypress', function (event) {
-        if (event.which === 13) {
+        if (event.key === 'Enter') {
             const keyword = $(this).val();
             searchAction(keyword)
-
         }
     });
+
     $('.search-bar [name=search-resto-submit-btn]').on('click', function (event) {
         const keyword = searchInput.val()
         searchAction(keyword)
