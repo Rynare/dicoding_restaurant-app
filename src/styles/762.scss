@@ -1,7 +1,22 @@
 @media screen and (min-width: 762px) {
     #app {
-        main .restaurant-list {
-            padding: 16px 24px;
+        main {
+            .jumbotron {
+                .jumbotron-content {
+                    .jumbotron-headline {
+                        margin-top: 4rem;
+                        // font-size: 3rem;
+                    }
+
+                    .jumbotron-description {
+                        width: 80%;
+                    }
+                }
+            }
+
+            .restaurant-list {
+                padding: 16px 24px;
+            }
         }
     }
 }

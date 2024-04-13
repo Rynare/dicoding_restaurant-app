@@ -2,6 +2,8 @@ import 'regenerator-runtime'; /* for async await transpile */
 import '../styles/main.scss';
 import '../styles/576.scss';
 import '../styles/762.scss';
+import '../styles/992px.scss';
+import '../styles/1200.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import $ from 'jquery';
 import restoJSON from '../public/data/DATA.json';
@@ -20,8 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function listenTabIndex() {
     document.addEventListener('keydown', function (event) {
         const activeElement = document.activeElement;
-        if (activeElement === event.target) {
+        if (activeElement === event.target && isElementVisible(activeElement)) {
             if (event.keyCode === 13 || event.keyCode === 32) {
+                event.preventDefault()
                 event.target.click();
             }
         }
@@ -103,4 +106,25 @@ function listenSearch() {
         const keyword = searchInput.val()
         searchAction(keyword)
     });
+}
+
+function isElementVisible(el) {
+    var rect = el.getBoundingClientRect();
+    var isVisible = (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+
+    var computedStyle = window.getComputedStyle(el);
+    if (
+        computedStyle.getPropertyValue('visibility') === 'hidden' ||
+        computedStyle.getPropertyValue('display') === 'none' ||
+        computedStyle.getPropertyValue('opacity') === '0'
+    ) {
+        isVisible = false;
+    }
+
+    return isVisible;
 }

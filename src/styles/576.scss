@@ -6,7 +6,7 @@
             nav {
                 padding: 8px 24px;
 
-                &>div:nth-child(1) {
+                &>a:nth-child(1) {
                     img {
                         height: 36px;
                     }
@@ -33,13 +33,15 @@
 
         main .jumbotron .jumbotron-content {
             .jumbotron-headline {
-                font-size: 2rem;
-                margin-top: 30px;
+                font-size: 5vw;
+                margin-top: 3rem;
+                width: 80%;
             }
 
             .jumbotron-description {
-                font-size: 1.2rem;
+                font-size: calc(2vw + .4rem);
                 padding: 0 24px;
+                width: 90%;
             }
         }
     }

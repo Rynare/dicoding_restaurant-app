@@ -1,0 +1,23 @@
+@media screen and (min-width: 992px) {
+    #app {
+        main {
+            .jumbotron .jumbotron-content {
+                .jumbotron-description {
+                    width: 70%;
+                }
+
+                .jumbotron-description {
+                    font-size: 1.5rem;
+                }
+
+                .jumbotron-footer .search-bar {
+                    height: 36px;
+                }
+            }
+
+            .restaurant-list {
+                grid-template-columns: repeat(4, minmax(200px, 1fr));
+            }
+        }
+    }
+}
