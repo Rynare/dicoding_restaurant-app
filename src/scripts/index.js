@@ -8,6 +8,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import $ from 'jquery';
 import restoJSON from '../public/data/DATA.json';
 import { RestaurantList } from "./RestaurantList.js";
+import { listenDialog } from './dialog.js';
 
 const restaurantList = new RestaurantList('.restaurant-list', '#card-template');
 
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     randomizeJumbotronContent();
     renderList();
     listenSearch();
+    // listenDialog();
 })
 
 function listenTabIndex() {
