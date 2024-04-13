@@ -20,7 +20,7 @@ class RestaurantList {
         })
         this.parent.html(`
             <div>
-                <p style="text-align: center;color: red;">Upps...Data tidak ditemukan.</p>
+                <p style="text-align: center;color: red;" tabindex="0">Upps...Data tidak ditemukan.</p>
             </div>
         `)
     }
