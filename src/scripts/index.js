@@ -24,11 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function listenTabIndex() {
     document.addEventListener('keydown', function (event) {
         const activeElement = document.activeElement;
+        const isEditable = activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA';
         if (activeElement === event.target && isElementVisible(activeElement)) {
             if (
                 (event.keyCode === 13 || event.keyCode === 32)
-                && activeElement.getAttribute('tabindex') != null
-                && activeElement.getAttribute('tabindex') >= 0
+                && activeElement.tabIndex >= 0 && !isEditable
             ) {
                 event.preventDefault()
                 event.target.click();
