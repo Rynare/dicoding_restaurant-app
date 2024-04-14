@@ -8,7 +8,14 @@ const appTitle = 'Food Master';
 
 module.exports = {
   entry: {
-    app: path.resolve(__dirname, 'src/scripts/index.js'),
+    app: {
+      import: path.resolve(__dirname, 'src/scripts/index.js'),
+      dependOn: 'shared',
+    },
+    style: {
+      import: path.resolve(__dirname, 'src/styles/style.js'),
+    },
+    shared: 'jquery',
   },
   output: {
     filename: '[name].bundle.js',

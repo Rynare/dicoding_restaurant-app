@@ -1,10 +1,4 @@
 import 'regenerator-runtime'; /* for async await transpile */
-import '../styles/main.scss';
-import '../styles/576.scss';
-import '../styles/762.scss';
-import '../styles/992px.scss';
-import '../styles/1200.scss';
-import 'bootstrap-icons/font/bootstrap-icons.css';
 import $ from 'jquery';
 import restoJSON from '../public/data/DATA.json';
 import { RestaurantList } from "./RestaurantList.js";
