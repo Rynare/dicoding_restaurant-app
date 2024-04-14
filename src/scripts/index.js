@@ -40,18 +40,20 @@ function listenTabIndex() {
 
 
 function listenDrawer() {
-    const hamburger_btn = document.querySelector('.hamburger-btn')
+    const hamburger_btn = document.querySelector('.hamburger-btn');
     const drawer = document.querySelector('#app aside');
+    // const transitionDuration = window.getComputedStyle(drawer).transitionDuration;
 
-    const toggle = event => {
+    const toggle = (event) => {
         event.stopPropagation();
+
         if (!event.target.closest('#app aside')) {
             drawer.classList.toggle('active');
             drawer.classList.contains('active')
                 ? document.addEventListener('click', toggle)
                 : document.removeEventListener('click', toggle);
         }
-    }
+    };
 
     hamburger_btn.addEventListener('click', toggle);
 }

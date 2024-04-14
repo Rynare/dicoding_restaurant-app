@@ -31,6 +31,7 @@ class RestaurantList {
         const starWidth = (rating / 5) * 100 - 3.9;
 
         newCard.find('#restaurant-img').attr('src', datas.pictureId);
+        newCard.find('#restaurant-img').attr('alt', `gambar restoran ${datas.name}`);
         newCard.find('#restaurant-location').text(datas.city);
         newCard.find('#restaurant-location').attr('aria-label', `restoran ini berlokasi di ${datas.city}`);
         newCard.find('#restaurant-name').text(datas.name);
