@@ -1,10 +1,14 @@
 import 'regenerator-runtime'; /* for async await transpile */
 import $ from 'jquery';
-import restoJSON from '../public/data/DATA.json';
-import { RestaurantList } from "./RestaurantList.js";
 import { listenDialog } from './dialog.js';
+import { RestaurantListElementHandler } from './utils/restaurant/RestaurantListElementHandler.js';
+import { RestaurantCard } from './utils/restaurant/RestaurantCard.js';
+import { Restaurants } from './utils/restaurant/Restaurants.js';
+import { swalNotify } from "./swal.js";
 
-const restaurantList = new RestaurantList('.restaurant-list', '#card-template');
+// RestaurantList menggunakan JQuery untuk mendapatkan element
+const restaurantListElementHandler = new RestaurantListElementHandler('.restaurant-list');
+const restaurants = new Restaurants();
 
 document.addEventListener('DOMContentLoaded', () => {
     listenDrawer();
@@ -32,11 +36,9 @@ function listenTabIndex() {
 }
 
 
-
 function listenDrawer() {
     const hamburger_btn = document.querySelector('.hamburger-btn');
     const drawer = document.querySelector('#app aside');
-    // const transitionDuration = window.getComputedStyle(drawer).transitionDuration;
 
     const toggle = (event) => {
         event.stopPropagation();
@@ -63,37 +65,30 @@ function randomizeJumbotronContent() {
     jumbotronDesc.html(randomDesc);
 }
 
-function renderList() {
-    restaurantList.removeAll()
-    restoJSON.restaurants.forEach((value) => {
-        restaurantList.add(value)
+function renderList(datas = restaurants.getAllData()) {
+    restaurantListElementHandler.removeAll()
+    datas.forEach((value) => {
+        const restaurantCard = new RestaurantCard('#card-template');
+        const newCard = restaurantCard.makeCard(value);
+        restaurantListElementHandler.appendCard(newCard);
     })
-}
-
-function getRestaurantByKeyword(keyword) {
-    const results = restoJSON.restaurants.filter(restaurant => {
-        const nameMatch = restaurant.name.toLowerCase().includes(keyword.toLowerCase());
-        const cityMatch = restaurant.city.toLowerCase().includes(keyword.toLowerCase());
-        const descriptionMatch = restaurant.description.toLowerCase().includes(keyword.toLowerCase());
-
-        return nameMatch || cityMatch || descriptionMatch;
-    });
-
-    return results;
 }
 
 function listenSearch() {
     const searchInput = $('.search-bar [name=search-resto]')
 
     function searchAction(keyword) {
-        const result = getRestaurantByKeyword(keyword)
+        const result = restaurants.getByKeyword(keyword)
         if (result.length > 0) {
-            restaurantList.removeAll()
-            result.forEach((value) => {
-                restaurantList.add(value)
-            })
+            renderList(result)
         } else {
-            restaurantList.setEmpty()
+            swalNotify({
+                title: 'Upps...',
+                text: 'Data tidak ditemukan.',
+                icon: 'error',
+                timer: 2000
+            })
+            restaurantListElementHandler.noData()
         }
     }
 
