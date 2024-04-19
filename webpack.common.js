@@ -9,9 +9,10 @@ const appTitle = 'Food Master';
 module.exports = {
   entry: {
     app: {
-      import: path.resolve(__dirname, 'src/scripts/index.js'),
+      import: path.resolve(__dirname, 'src/scripts/app.js'),
       dependOn: 'shared',
     },
+    sw: path.resolve(__dirname, 'src/scripts/utils/service-worker/ServiceWorker.js'),
     style: {
       import: path.resolve(__dirname, 'src/styles/style.js'),
     },
@@ -58,6 +59,10 @@ module.exports = {
         {
           from: path.resolve(__dirname, 'src/public/'),
           to: path.resolve(__dirname, 'dist/'),
+        },
+        {
+          from: path.resolve(__dirname, 'src/scripts/views/'),
+          to: path.resolve(__dirname, 'dist/views/'),
         },
       ],
     }),
