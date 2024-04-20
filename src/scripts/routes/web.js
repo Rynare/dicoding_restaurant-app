@@ -1,14 +1,11 @@
-const routes = {
-    '/': 'home.html',
-    '/': 'home.html',
-    '/': 'home.html',
-    '/': 'home.html',
-}
+import { Controller } from "../app/controller/Controller.js";
+import { HomeController } from "../app/controller/homeController.js";
+import { view } from "../utils/view-helper.js";
+import { router } from "./router.js";
 
-function view(viewName) {
-    const viewsDir = path.join(__dirname, './views/'); //! relative ke-folder dist
-    const viewPath = path.join(viewsDir, viewName);
-    return viewPath;
-}
+const routes = [
+    router(404, await view("/pages/404.html")),
+    router("/", new HomeController()),
+];
 
-export { routes, view }
+export { routes }

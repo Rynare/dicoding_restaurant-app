@@ -12,7 +12,11 @@ module.exports = {
       import: path.resolve(__dirname, 'src/scripts/app.js'),
       dependOn: 'shared',
     },
-    sw: path.resolve(__dirname, 'src/scripts/utils/service-worker/ServiceWorker.js'),
+    components: {
+      import: path.resolve(__dirname, 'src/scripts/components/components.min.js'),
+      dependOn: 'shared',
+    },
+    // sw: path.resolve(__dirname, 'src/scripts/utils/service-worker/ServiceWorker.js'),
     style: {
       import: path.resolve(__dirname, 'src/styles/style.js'),
     },
@@ -64,6 +68,10 @@ module.exports = {
           from: path.resolve(__dirname, 'src/scripts/views/'),
           to: path.resolve(__dirname, 'dist/views/'),
         },
+        // {
+        //   from: path.resolve(__dirname, 'src/scripts/components/'),
+        //   to: path.resolve(__dirname, 'dist/components/'),
+        // },
       ],
     }),
     new FaviconsWebpackPlugin({

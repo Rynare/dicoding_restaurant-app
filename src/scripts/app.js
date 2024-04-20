@@ -63,5 +63,3 @@ function isElementVisible(el) {
 
     return isVisible;
 }
-
-export { buildApp }
