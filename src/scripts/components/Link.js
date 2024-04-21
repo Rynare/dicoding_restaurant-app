@@ -1,5 +1,3 @@
-import { route } from "../routes/router.js";
-
 class LinkComponent extends HTMLElement {
     static observedAttributes = [
         "href",
@@ -11,11 +9,12 @@ class LinkComponent extends HTMLElement {
         this._innerText = this.innerText
         this.innerText = ''
         this._linkElement = document.createElement('a')
+        this._linkElement.style.color = 'inherit'
+        this._linkElement.style.textDecoration = 'inherit'
     }
 
     connectedCallback() {
         this.render()
-        this._addClick()
     }
 
     render() {
@@ -24,12 +23,12 @@ class LinkComponent extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        this._linkElement.setAttribute(name, newValue)
+        if (name == 'href') {
+            this._linkElement.setAttribute(name, `#${newValue}`)
+        } else {
+            this._linkElement.setAttribute(name, newValue)
+        }
         this.render()
-    }
-
-    _addClick() {
-        this.querySelector('a').addEventListener('click', route)
     }
 }
 customElements.define("link-component", LinkComponent);

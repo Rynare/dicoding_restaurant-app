@@ -1,6 +1,7 @@
 async function view(viewName = '') {
     const html = await fetchViewAsHtml(viewName);
     document.querySelector('#app-content').innerHTML = html;
+    console.log('view')
 }
 
 async function fetchViewAsHtml(viewName = '') {

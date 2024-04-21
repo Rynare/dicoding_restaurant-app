@@ -1,21 +1,16 @@
 import { Controller } from "../app/controller/Controller.js";
-import UrlParser from "./url-parser";
-import UrlPatternExtractor from "./url-pattern-extractor";
-import { routes } from "./web.js";
-
-const route = (event) => {
-    event = event || window.event;
-    const nextUrl = new URL(event.currentTarget.href);
-    const currentUrl = window.location;
-    window.history.pushState({}, "", currentUrl.host === nextUrl.host ? nextUrl.href : currentUrl.href);
-    if ((currentUrl.host === nextUrl.host) && (nextUrl.pathname !== currentUrl.pathname)) {
-        event.preventDefault();
-        handleLocation();
-    }
-};
+import UrlParser from "./link-parser/url-parser.js";
+import UrlPatternExtractor from "./link-parser/url-pattern-extractor.js";
 
 function router(urlPattern, controller) {
     urlPattern = isNaN(+urlPattern) ? urlPattern : `/${urlPattern}`
+    const isArray = Array.isArray(controller)
+    const isController = isArray ? controller[0] instanceof Controller : false
+    controller = isController ? callMethod(controller) : controller
+
+    if (typeof controller !== 'function') {
+        throw new Error("router harus memiliki 'function' atau 'Controller'");
+    }
 
     return {
         pattern: urlPattern,
@@ -34,44 +29,14 @@ function goto(routes, controller) {
     }
 }
 
-const handleLocation = async () => {
-    const path = window.location.pathname;
-    let route = path == '' ? routes['/'] : routes[404];
-    let doAction = null
-
-    if (path.includes(':') && routes[path]) {
-        route = routes[path]
+function callMethod([instance, methodName]) {
+    // Memanggil metode dengan menggunakan string nama metode
+    if (typeof instance[methodName] === 'function') {
+        return () => instance[methodName]();
     } else {
-        const pathSplit = UrlParser.urlSplitter(path)
-        // mencari rute dengan mencocokkan awalan pattern dengan awalan url, dan berdasarkan panjang segmen url & segmen pattern
-        let filteredRoutes = routes.filter(cursor => path.startsWith(cursor.startWith) && pathSplit.length === +cursor.request.segment.length)
-
-        // Jika rute ketemu 1 maka langsung dieksekusi
-        if (filteredRoutes.length == 1) {
-            doAction = filteredRoutes[0].action
-        } else {
-            // Jika rute ketemu 2 maka difilter lagi
-            if (filteredRoutes.length >= 2) {
-                filteredRoutes = routes.filter(cursor => compareUrlWithPattern(path, cursor.pattern))
-                doAction = filteredRoutes[0].action
-
-                // Jika tetap 2 maka throw error
-                if (filteredRoutes.length >= 2) {
-                    throw new Error('Multiple matching routes found.');
-                }
-            } else {
-                // Jika rute tidak ada maka throw error
-                throw new Error('Route not found.');
-            }
-        }
+        throw new Error(`Metode '${methodName}' tidak ditemukan`);
     }
-
-    if (typeof doAction === 'function' || doAction instanceof Controller) {
-        doAction()
-    } else {
-        throw new Error("Harus berupa function");
-    }
-};
+}
 
 function compareUrlWithPattern(url, pattern) {
     const urlSegments = UrlParser.urlSplitter(url);
@@ -99,4 +64,4 @@ function compareUrlWithPattern(url, pattern) {
     return true;
 }
 
-export { router, route }
+export { router, compareUrlWithPattern }

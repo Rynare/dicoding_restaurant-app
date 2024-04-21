@@ -1,7 +1,6 @@
 import { swalNotify } from "../../swal.js";
 import { RestaurantCard } from "../../utils/restaurant/RestaurantCard.js";
 import { Restaurants } from "../../utils/restaurant/Restaurants.js";
-import { fetchViewAsHtml } from "../../utils/view-helper.js";
 import { Controller } from "./Controller.js";
 import { RestaurantListElementHandler } from "../../utils/restaurant/RestaurantListElementHandler.js";
 import $ from 'jquery'
@@ -11,22 +10,20 @@ class HomeController extends Controller {
         super()
         this._restaurantListElementHandler = null;
         this._restaurants = null;
-        this._view,
-            document.querySelector('#app-content').innerHTML = '';
-        this.render()
     }
 
-    async render() {
-        const template = document.createElement('template')
-        this._view = await fetchViewAsHtml("/pages/index.html")
-        template.innerHTML = this._view
-        this._view = template.content.cloneNode(true)
-        document.querySelector('#app-content').appendChild(this._view);
+    async index() {
+        this._view = await this._fetchView("/pages/home.html")
+        this._renderPage();
+
         this._restaurantListElementHandler = new RestaurantListElementHandler('.restaurant-list');
         this._restaurants = new Restaurants();
+
         this.randomizeJumbotronContent()
         this.renderList()
         this.listenSearch()
+
+        return this.index
     }
 
     randomizeJumbotronContent() {

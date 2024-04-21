@@ -8,8 +8,8 @@ const appTitle = 'Food Master';
 
 module.exports = {
   entry: {
-    app: {
-      import: path.resolve(__dirname, 'src/scripts/app.js'),
+    index: {
+      import: path.resolve(__dirname, 'src/scripts/index.js'),
       dependOn: 'shared',
     },
     components: {
