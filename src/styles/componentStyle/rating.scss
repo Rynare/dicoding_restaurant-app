@@ -1,0 +1,36 @@
+#rating-container {
+    color: grey;
+    display: flex;
+    align-items: center;
+}
+
+.rating-star {
+    display: inline;
+    font-size: 13px;
+    position: relative;
+    color: #ccc;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+
+    .fill-star {
+        color: #e7711b;
+        padding: 0;
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        display: inline-flex;
+        column-gap: 1px;
+    }
+
+    .empty-star {
+        padding: 0;
+        display: block;
+        z-index: 0;
+        display: inline-flex;
+        column-gap: 1px;
+    }
+}

@@ -17,7 +17,18 @@ function router(urlPattern, controller) {
         startWith: UrlPatternExtractor.startWith(urlPattern),
         request: {
             segment: UrlParser.urlSplitter(urlPattern),
-            parameter: UrlPatternExtractor.getParameter(urlPattern)
+            parameter: Object.entries(UrlPatternExtractor.getPatternParameter(urlPattern)),
+            putParameter: () => {
+                const patternParameter = UrlPatternExtractor.getPatternParameter(urlPattern)
+                const urlParameter = {}
+                const urlPath = UrlParser.urlSplitter(window.location.hash)
+
+                Object.entries(patternParameter).forEach(([key, value]) => {
+                    urlParameter[value] = urlPath[+key];
+                });
+
+                Controller.putRequestParameter(urlParameter)
+            }
         },
         action: controller
     }

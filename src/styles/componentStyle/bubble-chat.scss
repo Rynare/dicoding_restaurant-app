@@ -1,0 +1,38 @@
+.review-bubble {
+    display: flex;
+    margin-bottom: 10px;
+    row-gap: 5px;
+    justify-content: center;
+    $reviewBgColor: rgb(236, 236, 236);
+
+    span {
+        content: "";
+        width: max-content;
+        height: max-content;
+        border-right: 10px solid $reviewBgColor;
+        border-bottom: 10px solid white;
+    }
+
+    .review-body {
+        background-color: $reviewBgColor;
+        padding: 10px;
+        border-radius: 0 8px 8px 8px;
+        width: 100%;
+    }
+
+    .reviewer-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+        overflow-wrap: break-word
+    }
+
+    .reviewer-msg {
+        margin-bottom: 5px;
+        overflow-wrap: break-word
+    }
+
+    .review-date {
+        text-align: end;
+        color: grey;
+    }
+}

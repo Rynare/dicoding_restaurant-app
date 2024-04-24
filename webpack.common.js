@@ -8,19 +8,9 @@ const appTitle = 'Food Master';
 
 module.exports = {
   entry: {
-    index: {
-      import: path.resolve(__dirname, 'src/scripts/index.js'),
-      dependOn: 'shared',
-    },
-    components: {
-      import: path.resolve(__dirname, 'src/scripts/components/components.min.js'),
-      dependOn: 'shared',
-    },
-    // sw: path.resolve(__dirname, 'src/scripts/utils/service-worker/ServiceWorker.js'),
-    style: {
-      import: path.resolve(__dirname, 'src/styles/style.js'),
-    },
-    shared: 'jquery',
+    index: path.resolve(__dirname, 'src/scripts/index.js'),
+    components: path.resolve(__dirname, 'src/scripts/components/components.min.js'),
+    style: path.resolve(__dirname, 'src/styles/style.js'),
   },
   output: {
     filename: '[name].bundle.js',
@@ -31,28 +21,16 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-          },
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader",
-        ],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
   plugins: [
     new CleanWebpackPlugin(),
-
     new HtmlWebpackPlugin({
       title: appTitle,
       filename: 'index.html',
@@ -68,10 +46,6 @@ module.exports = {
           from: path.resolve(__dirname, 'src/scripts/views/'),
           to: path.resolve(__dirname, 'dist/views/'),
         },
-        // {
-        //   from: path.resolve(__dirname, 'src/scripts/components/'),
-        //   to: path.resolve(__dirname, 'dist/components/'),
-        // },
       ],
     }),
     new FaviconsWebpackPlugin({
@@ -81,8 +55,7 @@ module.exports = {
       favicons: {
         appName: appTitle,
         appDescription: 'Food Master adalah website yang menyediakan katalog restoran',
-        developerName: 'M. FAHIM DAVID BACHTIAR',
-        developerURL: null,
+        developerName: 'M. Fahim David Bachtiar',
         background: '#fff',
         theme_color: '#333',
         icons: {

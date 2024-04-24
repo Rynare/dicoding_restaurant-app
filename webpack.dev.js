@@ -4,16 +4,15 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'inline-source-map',
+  devtool: 'eval-source-map',
+  // devtool: 'inline-source-map', 
   devServer: {
+    hot: true,
     static: path.resolve(__dirname, 'dist'),
-    open: true,
+    // open: true,
     compress: true,
     client: {
-      overlay: {
-        errors: false,
-        warnings: false,
-      },
+      overlay: false,
     },
   },
 });

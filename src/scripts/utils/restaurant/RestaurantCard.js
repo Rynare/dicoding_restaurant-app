@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { Restaurants } from "./Restaurants";
 class RestaurantCard {
     constructor(elementQuery) {
         if (new.target === undefined) {
@@ -7,21 +8,20 @@ class RestaurantCard {
         this._template = $(elementQuery).contents().clone(true);
     }
 
-    makeCard(datas) {
-        const rating = +datas.rating;
-        const starWidth = (rating / 5) * 100 - 3.9;
-
-        this._template.find('#restaurant-img').attr('src', datas.pictureId);
-        this._template.find('#restaurant-img').attr('alt', `gambar restoran ${datas.name}`);
-        this._template.find('#restaurant-location').text(datas.city);
-        this._template.find('#restaurant-location').attr('aria-label', `restoran ini berlokasi di ${datas.city}`);
-        this._template.find('#restaurant-name').text(datas.name);
-        this._template.find('#restaurant-name').attr('aria-label', `restoran ini bernama ${datas.name}`);
-        this._template.find('#restaurant-rating').text(datas.rating);
-        this._template.find('#restaurant-rating').attr('aria-label', `restoran ini memiliki ${rating} bintang`);
-        this._template.find('.rating-star .fill-star').css('width', `${starWidth}%`);
-        this._template.find('#restaurant-description').text(datas.description);
-        this._template.find('#restaurant-description').attr('aria-label', `deskripsi restoran: ${datas.description}`);
+    makeCard({ id, name, description, pictureId, city, rating }) {
+        this._template.find('#restaurant-img').attr('src', Restaurants.getImageResolutionUrl({ resolution: 'small', pictureId: pictureId }));
+        this._template.find('#restaurant-img').attr('alt', `gambar restoran ${name}`);
+        this._template.find('#restaurant-location').text(city);
+        this._template.find('#restaurant-location').attr('aria-label', `restoran ini berlokasi di ${city}`);
+        this._template.find('#restaurant-name').text(name);
+        this._template.find('#restaurant-name').attr('aria-label', `restoran ini bernama ${name}`);
+        this._template.find('rating-component').attr('rating', rating);
+        this._template.find('#restaurant-description').text(description);
+        this._template.find('#restaurant-description').attr('aria-label', `deskripsi restoran: ${description}`);
+        this._template.find('#open-detail-btn').attr({
+            'href': `/#/detail/${id}`,
+            'aria-label': `untuk membuka detail informasi ${name} klik tombol ini`,
+        });
 
         return this;
     }

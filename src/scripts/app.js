@@ -30,7 +30,7 @@ class App {
         const pathSplit = UrlParser.urlSplitter(rawCurrentPath)
         const currentPath = `/${pathSplit.join('/')}`
         // mencari rute dengan mencocokkan awalan pattern dengan awalan url, dan berdasarkan panjang segmen url & segmen pattern
-        let filteredRoutes = routes.filter(cursor => `${currentPath}/`.startsWith(`${cursor.startWith}/`) && pathSplit.length === +cursor.request.segment.length)
+        let filteredRoutes = routes.filter(cursor => `${currentPath}/`.startsWith(`${cursor.startWith}/`) && pathSplit.length === cursor.request.segment.length)
         let doAction = null
 
         if (filteredRoutes.length == 1) {
@@ -40,15 +40,18 @@ class App {
                 filteredRoutes = routes.filter(cursor => compareUrlWithPattern(currentPath, cursor.pattern))
                 // Jika tetap 2 maka throw error
                 if (filteredRoutes.length >= 2) {
-                    throw new Error('Multiple matching routes found.');
+                    console.error(`Multiple routes: \n\t${filteredRoutes.map(cursor => `'${cursor.pattern}'`).join(',\n\t')}`);
+                    throw new Error(`Multiple matching routes found.`);
                 }
                 doAction = filteredRoutes[0].action
             } else {
                 doAction = () => view('/pages/404.html')
             }
         }
-
         doAction()
+        if (filteredRoutes[0].request.parameter.length > 0) {
+            filteredRoutes[0].request.putParameter()
+        }
     }
 
     _listenTabIndex() {
