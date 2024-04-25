@@ -6,95 +6,51 @@ const CACHE_NAME = `mypwa-${version}`;
 // Daftar asset yang akan di-caching
 const assetsToCache = [
     './',
-    './icons/icon-72x72.png',
-    './icons/icon-96x96.png',
-    './icons/icon-128x128.png',
-    './icons/icon-144x144.png',
-    './icons/icon-152x152.png',
-    './icons/icon-192x192.png',
-    './icons/icon-384x384.png',
-    './icons/icon-512x512.png',
+    './assets/favicon.ico',
+    './assets/favicon-16x16.png',
+    './assets/favicon-32x32.png',
+    './assets/favicon-48x48.png',
+    './assets/apple-touch-icon-57x57.png',
+    './assets/apple-touch-icon-60x60.png',
+    './assets/apple-touch-icon-72x72.png',
+    './assets/apple-touch-icon-76x76.png',
+    './assets/apple-touch-icon-114x114.png',
+    './assets/apple-touch-icon-120x120.png',
+    './assets/apple-touch-icon-144x144.png',
+    './assets/apple-touch-icon-152x152.png',
+    './assets/apple-touch-icon-167x167.png',
+    './assets/apple-touch-icon-180x180.png',
+    './assets/apple-touch-icon-1024x1024.png',
     './index.html',
-    './favicon.png',
     './app.bundle.js',
-    './app.webmanifest',
-    './sw.bundle.js',
+    './images/icon/logo-fit.png',
+    './images/heros/hero-image_1.jpg',
+    './serviceWorker.bundle.js',
+    //// './favicon.png',
+    //// './assets/manifest.webmanifest',
 ];
 
 self.addEventListener('install', (event) => {
+    console.log('Installing Service Worker ...');
+
+    // TODO: Caching App Shell Resource
     event.waitUntil(CacheHelper.cachingAppShell([...assetsToCache]));
 });
 
 self.addEventListener('activate', (event) => {
+    console.log('Activating Service Worker ...');
+
+    // TODO: Delete old caches
     event.waitUntil(CacheHelper.deleteOldCache());
 });
 
 self.addEventListener('fetch', (event) => {
-    event.respondWith(CacheHelper.revalidateCache(event.request));
-});
-
-// ! ==============================================================================
-// *                        Contoh Penggunaan ada dibawah ini
-// ! ==============================================================================
-
-self.addEventListener('install', (event) => {
-    console.log('Installing service worker....');
-
-    // menyimpan appshell ke caches API
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then((caches) => caches.addAll(assetsToCache)),
-    );
-});
-
-self.addEventListener('activate', (event) => {
-    console.log('Activating service worker...');
-
-    // menghapus caches lama
-    event.waitUntil(
-        caches.keys()
-            .then((cachesNames) => Promise.all(
-                cachesNames.filter((name) => name !== CACHE_NAME)
-                    .map((filteredName) => caches.delete(filteredName))
-            )),
-    );
-});
-
-self.addEventListener('fetch', (event) => {
-    // service worker bisa menampilkan, bahkan memanipulasi request yang dilakukan client
     console.log(event.request);
 
-    // sebelum akhirnya mengirim request ke server.
-    event.respondWith(
-        fetch(event.request),
-    );
+    event.respondWith(fetch(event.request));
+    // TODO: Add/get fetch request to/from caches
+    event.respondWith(CacheHelper.revalidateCache(event.request));
 });
-// * =============== untuk file index.js ================
-navigator.serviceWorker.register('/sw.js');
-// * even - messagee
-navigator.serviceWorker.ready.then(registration => {
-    registration.active.postMessage('Hi service worker');
-});
-// * even - sync
-navigator.serviceWorker.ready.then(swRegistration => {
-    return swRegistration.sync.register('foo');
-});
-//! =====================================================
-
-self.addEventListener('message', (event) => {
-    // menampilkan data/pesan yang dikirim client
-    console.log(`Client mengirim pesan: ${event.data}`);
-});
-
-self.addEventListener('sync', function (event) {
-    if (event.tag === 'foo') {
-        event.waitUntil(doSomething());
-    }
-});
-
-const options = {
-    // ...
-}
 
 self.addEventListener('push', (event) => {
     event.waitUntil(

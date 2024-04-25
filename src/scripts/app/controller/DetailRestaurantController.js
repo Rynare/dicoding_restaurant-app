@@ -1,6 +1,7 @@
 import { Restaurants } from "../../utils/restaurant/Restaurants.js";
 import { Controller } from "./Controller.js";
-import $ from 'jquery'
+import $ from 'jquery';
+import { FavoriteRestaurantsIndexedDB } from "../../data/favorite-restaurants.js";
 
 class DetailRestaurantController extends Controller {
     constructor() {
@@ -8,10 +9,11 @@ class DetailRestaurantController extends Controller {
         this._restaurants = null;
     }
 
+    static restaurantShortData
+
     async index() {
         this._view = await this._fetchView("/pages/resto-detail.html")
         this._renderPage();
-
 
         this._restaurants = new Restaurants()
         const result = await this.fetchDetail();
@@ -19,9 +21,20 @@ class DetailRestaurantController extends Controller {
 
         if (result.error == false) {
             const { id, name, description, city, address, pictureId, categories, menus, rating, customerReviews } = result.restaurant
+            DetailRestaurantController.restaurantShortData = {
+                id: result.restaurant.id,
+                name: result.restaurant.name,
+                description: result.restaurant.description,
+                pictureId: result.restaurant.pictureId,
+                rating: result.restaurant.rating,
+                city: result.restaurant.city,
+            }
             const { foods, drinks } = menus
             const imageUrl = Restaurants.getImageResolutionUrl({ resolution: 'medium', 'pictureId': pictureId });
 
+            const indexDB = await FavoriteRestaurantsIndexedDB.getRestaurant(id)
+            const isFav = indexDB == undefined ? false : true
+            $('.fav-btn').attr('is-active', isFav)
             $('.detail-header.restaurant-image').css('background-image', `url(${imageUrl})`);
             $('.detail-body .restaurant-image').attr('src', Restaurants.getImageResolutionUrl({ resolution: 'small', 'pictureId': pictureId }))
             $('.restaurant-name').text(name)
@@ -60,6 +73,17 @@ class DetailRestaurantController extends Controller {
                 console.error(error)
             }
         });
+
+        $('.fav-btn').on('click', async (e) => {
+            if (e.target.getAttribute('is-active') == 'true') {
+                const result = await FavoriteRestaurantsIndexedDB.putRestaurant(DetailRestaurantController.restaurantShortData);
+                if (result != Controller.parameters.id) {
+                    e.target.setAttribute('is-active', false)
+                }
+            } else {
+                await FavoriteRestaurantsIndexedDB.deleteRestaurant(Controller.parameters.id)
+            }
+        })
     }
 
     async fetchDetail() {

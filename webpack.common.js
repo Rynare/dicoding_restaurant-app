@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { GenerateSW, InjectManifest } = require('workbox-webpack-plugin');
 
 const appTitle = 'Food Master';
 
@@ -11,6 +12,9 @@ module.exports = {
     index: path.resolve(__dirname, 'src/scripts/index.js'),
     components: path.resolve(__dirname, 'src/scripts/components/components.min.js'),
     style: path.resolve(__dirname, 'src/styles/style.js'),
+    serviceWorkerHandler: path.resolve(__dirname, 'src/scripts/utils/service-worker/ServiceWorkerHandler.js'),
+    webSocketHandler: path.resolve(__dirname, 'src/scripts/utils/websocket/websocket-handler.js'),
+    //// serviceWorker: path.resolve(__dirname, 'src/scripts/utils/service-worker/ServiceWorker.js'),
   },
   output: {
     filename: '[name].bundle.js',
@@ -67,6 +71,26 @@ module.exports = {
           yandex: true
         }
       }
+    }),
+    new GenerateSW({
+      swDest: 'workBoxServiceWorker.js',
+      maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
+      runtimeCaching: [
+        {
+          urlPattern: ({ url }) => url.href.startsWith('https://restaurant-api.dicoding.dev/'),
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'restaurants-api',
+          },
+        },
+        // {
+        //   urlPattern: ({ url }) => url.href.startsWith('https://image.tmdb.org/t/p/w500/'),
+        //   handler: 'StaleWhileRevalidate',
+        //   options: {
+        //     cacheName: 'themoviedb-image-api',
+        //   },
+        // },
+      ],
     }),
   ],
 };

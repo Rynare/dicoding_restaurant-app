@@ -6,6 +6,10 @@ const CacheHelper = {
         cache.addAll(requests);
     },
 
+    async _openCache() {
+        return caches.open(CONFIG.CACHE_NAME);
+    },
+
     async deleteOldCache() {
         const cacheNames = await caches.keys();
         cacheNames
@@ -21,10 +25,6 @@ const CacheHelper = {
             return response;
         }
         return this._fetchRequest(request);
-    },
-
-    async _openCache() {
-        return caches.open(CONFIG.CACHE_NAME);
     },
 
     async _fetchRequest(request) {

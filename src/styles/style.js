@@ -12,6 +12,7 @@ import './componentStyle/search-bar.scss';
 //! Main style
 import './main.scss';
 import './detail-resto.scss';
+import './fav-restaurant.scss';
 import './576.scss';
 import './762.scss';
 import './992px.scss';
