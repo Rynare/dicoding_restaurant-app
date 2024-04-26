@@ -1,107 +1,104 @@
+import $ from "jquery";
 import { Restaurants } from "../../utils/restaurant/Restaurants.js";
 import { Controller } from "./Controller.js";
-import $ from 'jquery';
 import { FavoriteRestaurantsIndexedDB } from "../../data/favorite-restaurants.js";
 
 class DetailRestaurantController extends Controller {
-    constructor() {
-        super()
-        this._restaurants = null;
+  constructor() {
+    super();
+    this._restaurants = null;
+  }
+
+  static restaurantShortData;
+
+  async index() {
+    this._view = await this._fetchView("/pages/resto-detail.html");
+    this._renderPage();
+
+    this._restaurants = new Restaurants();
+    const result = await this.fetchDetail();
+    const { renderReview } = this;
+
+    if (result.error === false) {
+      const {
+        id, name, description, city, address, pictureId, categories, menus, rating, customerReviews,
+      } = result.restaurant;
+      DetailRestaurantController.restaurantShortData = {
+        id: result.restaurant.id,
+        name: result.restaurant.name,
+        description: result.restaurant.description,
+        pictureId: result.restaurant.pictureId,
+        rating: result.restaurant.rating,
+        city: result.restaurant.city,
+      };
+      const { foods, drinks } = menus;
+      const imageUrl = Restaurants.getImageResolutionUrl({ resolution: "medium", pictureId });
+
+      const indexDB = await FavoriteRestaurantsIndexedDB.getRestaurant(id);
+      const isFav = indexDB !== undefined;
+      $(".fav-btn").attr("is-active", isFav);
+      $(".detail-header.restaurant-image").css("background-image", `url(${imageUrl})`);
+      $(".restaurant-name").text(name);
+      $("rating-component").attr("rating", rating);
+      $(".restaurant-categories").html(`<i class="bi bi-tag" style="color: gold;"></i> ${categories.map((category) => `${category.name}`).join(", ")}`);
+      $("address").html(`<i class="bi bi-geo-alt-fill" style="color:red;"></i> ${address}, ${city}`);
+      $(".restaurant-description").text(description);
+      $(".menu-list-category .foods").html(
+        `<li>${foods.map((food) => `${food.name}`).join("</li><li>")}</li>`,
+      );
+      $(".menu-list-category .drinks").html(
+        `<li>${drinks.map((drink) => drink.name).join("</li><li>")}</li>`,
+      );
+
+      renderReview(customerReviews);
     }
 
-    static restaurantShortData
+    document.querySelector(".review-box form").addEventListener("submit", async function formSubmitEvent(event) {
+      event.preventDefault();
 
-    async index() {
-        this._view = await this._fetchView("/pages/resto-detail.html")
-        this._renderPage();
+      const formData = new FormData(this);
+      const formDataObject = {
+        id: Controller.parameters.id,
+        name: formData.get("name"),
+        review: formData.get("review"),
+      };
 
-        this._restaurants = new Restaurants()
-        const result = await this.fetchDetail();
-        const renderReview = this.renderReview
-
-        if (result.error == false) {
-            const { id, name, description, city, address, pictureId, categories, menus, rating, customerReviews } = result.restaurant
-            DetailRestaurantController.restaurantShortData = {
-                id: result.restaurant.id,
-                name: result.restaurant.name,
-                description: result.restaurant.description,
-                pictureId: result.restaurant.pictureId,
-                rating: result.restaurant.rating,
-                city: result.restaurant.city,
-            }
-            const { foods, drinks } = menus
-            const imageUrl = Restaurants.getImageResolutionUrl({ resolution: 'medium', 'pictureId': pictureId });
-
-            const indexDB = await FavoriteRestaurantsIndexedDB.getRestaurant(id)
-            const isFav = indexDB == undefined ? false : true
-            $('.fav-btn').attr('is-active', isFav)
-            $('.detail-header.restaurant-image').css('background-image', `url(${imageUrl})`);
-            $('.detail-body .restaurant-image').attr('src', Restaurants.getImageResolutionUrl({ resolution: 'small', 'pictureId': pictureId }))
-            $('.restaurant-name').text(name)
-            $('rating-component').attr('rating', rating)
-            $('.restaurant-categories').html(`<i class="bi bi-tag" style="color: gold;"></i> ${categories.map(category => `${category.name}`).join(', ')}`);
-            $('address').html(`<i class="bi bi-geo-alt-fill" style="color:red;"></i> ${address}, ${city}`)
-            $('.restaurant-description').text(description)
-            $('.menu-list-category .foods').html(
-                `<li>${foods.map(food => `${food.name}`).join('</li><li>')}</li>`
-            )
-            $('.menu-list-category .drinks').html(
-                `<li>${drinks.map(drink => drink.name).join('</li><li>')}</li>`
-            )
-
-            renderReview(customerReviews)
+      try {
+        const isSuccessAddReview = await Restaurants.addReview(formDataObject);
+        if (isSuccessAddReview.error === false) {
+          renderReview(isSuccessAddReview.customerReviews);
+          $(".review-box form [type=reset]").trigger("click");
         }
+      } catch (error) {
+        console.error(error);
+      }
+    });
 
+    $(".fav-btn").on("click", async (e) => {
+      if (e.target.getAttribute("is-active").toLowerCase() === "true") {
+        const isSuccesPutFav = await FavoriteRestaurantsIndexedDB.putRestaurant(DetailRestaurantController.restaurantShortData);
+        if (isSuccesPutFav !== Controller.parameters.id) {
+          e.target.setAttribute("is-active", false);
+        }
+      } else {
+        await FavoriteRestaurantsIndexedDB.deleteRestaurant(Controller.parameters.id);
+      }
+    });
+  }
 
-        document.querySelector('.review-box form').addEventListener('submit', async function (event) {
-            event.preventDefault();
+  async fetchDetail() {
+    const { id } = Controller.parameters;
+    const detail = await this._restaurants.getDetailById(id);
 
-            const formData = new FormData(this);
-            const formDataObject = {
-                id: Controller.parameters.id,
-                name: formData.get('name'),
-                review: formData.get('review')
-            };
+    return detail;
+  }
 
-            try {
-                const result = await Restaurants.addReview(formDataObject)
-                if (result.error == false) {
-                    renderReview(result.customerReviews)
-                    $('.review-box form [type=reset]').trigger('click')
-                }
-            } catch (error) {
-                console.error(error)
-            }
-        });
-
-        $('.fav-btn').on('click', async (e) => {
-            if (e.target.getAttribute('is-active') == 'true') {
-                const result = await FavoriteRestaurantsIndexedDB.putRestaurant(DetailRestaurantController.restaurantShortData);
-                if (result != Controller.parameters.id) {
-                    e.target.setAttribute('is-active', false)
-                }
-            } else {
-                await FavoriteRestaurantsIndexedDB.deleteRestaurant(Controller.parameters.id)
-            }
-        })
-    }
-
-    async fetchDetail() {
-        const { id } = Controller.parameters
-        const detail = await this._restaurants.getDetailById(id)
-
-        return detail
-    }
-
-    async postReview() {
-
-    }
-
-    renderReview(customerReviews) {
-        $('.restaurant-reviews-list').html(
-            customerReviews.map(customerReview => {
-                const { name, review, date } = customerReview;
-                return `
+  // eslint-disable-next-line class-methods-use-this
+  renderReview(customerReviews) {
+    $(".restaurant-reviews-list").html(
+      customerReviews.map((customerReview) => {
+        const { name, review, date } = customerReview;
+        return `
                     <div class="review-bubble">
                         <span></span>
                         <div class="review-body">
@@ -111,9 +108,9 @@ class DetailRestaurantController extends Controller {
                         </div>
                     </div>
                 `;
-            }).join('')
-        );
-    }
+      }).join(""),
+    );
+  }
 }
 
-export { DetailRestaurantController }
+export { DetailRestaurantController };

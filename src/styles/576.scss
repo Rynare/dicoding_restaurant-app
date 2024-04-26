@@ -31,18 +31,33 @@
             display: none;
         }
 
-        main .jumbotron .jumbotron-content {
-            .jumbotron-headline {
-                font-size: 5vw;
-                margin-top: 3rem;
-                width: 80%;
+        main {
+            .jumbotron .jumbotron-content {
+                .jumbotron-headline {
+                    font-size: 5vw;
+                    margin-top: 3rem;
+                    width: 80%;
+                }
+
+                .jumbotron-description {
+                    font-size: calc(2vw + .4rem);
+                    padding: 0 24px;
+                    width: 90%;
+                }
             }
 
-            .jumbotron-description {
-                font-size: calc(2vw + .4rem);
-                padding: 0 24px;
-                width: 90%;
+            .detail-restaurant {
+                .restaurant-menus-list {
+                    flex-direction: row;
+                    gap: 20;
+                    justify-content: space-evenly;
+
+                    .menu-list-category {
+                        flex-grow: 1;
+                    }
+                }
             }
+
         }
     }
 }

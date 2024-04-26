@@ -4,22 +4,22 @@ import { RestaurantListElementHandler } from "../../utils/restaurant/RestaurantL
 import { Controller } from "./Controller.js";
 
 class FavoriteRestaurantController extends Controller {
-    constructor() {
-        super()
-    }
+  constructor() {
+    super();
+  }
 
-    async index() {
-        this._view = await this._fetchView('./pages/favorite.html')
-        this._renderPage()
+  async index() {
+    this._view = await this._fetchView("./pages/favorite.html");
+    this._renderPage();
 
-        this.favList = new RestaurantListElementHandler('.favorite-restaurant-list')
-        const restaurants = await FavoriteRestaurantsIndexedDB.getAllRestaurants()
-        restaurants.forEach(restaurant => {
-            const restaurantCard = new RestaurantCard('#card-template');
-            const newCard = restaurantCard.makeCard(restaurant);
-            this.favList.appendCard(newCard)
-        })
-    }
+    this.favList = new RestaurantListElementHandler(".favorite-restaurant-list");
+    const restaurants = await FavoriteRestaurantsIndexedDB.getAllRestaurants();
+    restaurants.forEach((restaurant) => {
+      const restaurantCard = new RestaurantCard("#card-template");
+      const newCard = restaurantCard.makeCard(restaurant);
+      this.favList.appendCard(newCard);
+    });
+  }
 }
 
-export { FavoriteRestaurantController }
+export { FavoriteRestaurantController };

@@ -27,6 +27,21 @@
 <body>
   <!-- <dialog>buat fitur nanti</dialog> -->
   <a onclick="scrollToSection('#maincontent')" class="skip-link" tabindex="0">Skip To Content</a>
+  <button onclick="document.body.scrollTo(0,0)" class="scrollToTop"><i class="bi bi-chevron-double-up"></i></button>
+  <style>
+    .scrollToTop {
+      visibility: hidden;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      background-color: crimson !important;
+      border: none !important;
+      color: white !important;
+      font-size: 100%;
+      font-weight: bold;
+    }
+  </style>
 
   <div id="app">
     <header>
@@ -104,6 +119,16 @@
         console.error('#maincontent tidak ada.')
       }
     }
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.addEventListener('scroll', () => {
+        const scrollToTop = document.querySelector('.scrollToTop')
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          scrollToTop.style.visibility = "visible";
+        } else {
+          scrollToTop.style.visibility = "hidden";
+        }
+      })
+    })
   </script>
 </body>
 

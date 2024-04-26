@@ -17,6 +17,27 @@
             .restaurant-list {
                 padding: 16px 24px;
             }
+
+            .detail-restaurant {
+                .detail-header-title .wrapper {
+                    padding: 20px 10px;
+                }
+
+                .detail-body img {
+                    border-radius: 8px;
+                    display: inline;
+                    float: inline-start;
+                    margin-right: 24px;
+                    width: 40%;
+                }
+            }
+
+        }
+
+        .review-box {
+            [name=review] {
+                min-height: calc(1.5rem * 4);
+            }
         }
     }
 }

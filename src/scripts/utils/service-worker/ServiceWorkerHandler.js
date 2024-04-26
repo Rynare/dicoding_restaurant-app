@@ -1,5 +1,5 @@
-import workBoxServiceWorker from "./WorkBoxServiceWorker"; "./WorkBoxServiceWorker.js";
+import workBoxServiceWorker from "./WorkBoxServiceWorker.js";
 
-window.addEventListener('load', () => {
-    workBoxServiceWorker('./workBoxServiceWorker.js')
-})
+window.addEventListener("load", () => {
+  workBoxServiceWorker("./workBoxServiceWorker.js");
+});
