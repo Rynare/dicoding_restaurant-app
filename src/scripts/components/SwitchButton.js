@@ -1,4 +1,4 @@
-class LikeButton extends HTMLButtonElement {
+class SwitchButton extends HTMLButtonElement {
   static get observedAttributes() {
     return ["is-active"];
   }
@@ -15,10 +15,6 @@ class LikeButton extends HTMLButtonElement {
     if (!this.hasAttribute("is-active")) {
       this.setAttribute("is-active", false);
     }
-    this.addEventListener("click", () => {
-      const isActive = this.getAttribute("is-active") === "true";
-      this.setAttribute("is-active", String(!isActive));
-    });
   }
 
   buttonSwitcher() {
@@ -38,4 +34,5 @@ class LikeButton extends HTMLButtonElement {
     }
   }
 }
-customElements.define("switch-button", LikeButton, { extends: "button" });
+customElements.define("switch-button", SwitchButton, { extends: "button" });
+export default SwitchButton;

@@ -4,6 +4,7 @@ import { RestaurantCard } from "../../utils/restaurant/RestaurantCard.js";
 import { Restaurants } from "../../utils/restaurant/Restaurants.js";
 import { Controller } from "./Controller.js";
 import { RestaurantListElementHandler } from "../../utils/restaurant/RestaurantListElementHandler.js";
+import { FavoriteRestaurantsIndexedDB } from "../../data/favorite-restaurants.js";
 
 class HomeController extends Controller {
   constructor() {

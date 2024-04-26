@@ -74,13 +74,17 @@ class DetailRestaurantController extends Controller {
       }
     });
 
-    $(".fav-btn").on("click", async (e) => {
-      if (e.target.getAttribute("is-active").toLowerCase() === "true") {
-        const isSuccesPutFav = await FavoriteRestaurantsIndexedDB.putRestaurant(DetailRestaurantController.restaurantShortData);
-        if (isSuccesPutFav !== Controller.parameters.id) {
-          e.target.setAttribute("is-active", false);
+    const favBtn = $(".fav-btn");
+    favBtn.on("click", async (e) => {
+      const isActive = favBtn.attr("is-active");
+
+      if (isActive && isActive.toLowerCase() === "false") {
+        const isSuccessPutFav = await FavoriteRestaurantsIndexedDB.putRestaurant(DetailRestaurantController.restaurantShortData);
+        if (isSuccessPutFav === Controller.parameters.id) {
+          favBtn.attr("is-active", "true");
         }
       } else {
+        favBtn.attr("is-active", "false");
         await FavoriteRestaurantsIndexedDB.deleteRestaurant(Controller.parameters.id);
       }
     });

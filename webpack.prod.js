@@ -1,11 +1,9 @@
-import merge from "webpack-merge";
-import common from "./webpack.common.js";
-import nodeExternals from "webpack-node-externals";
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
 
-export default merge(common, {
-  mode: "production",
-  externals: [nodeExternals()],
-  devtool: "source-map",
+module.exports = merge(common, {
+  mode: 'production',
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -13,9 +11,9 @@ export default merge(common, {
         exclude: /node_modules/,
         use: [
           {
-            loader: "babel-loader",
+            loader: 'babel-loader',
             options: {
-              presets: ["@babel/preset-env"],
+              presets: ['@babel/preset-env'],
             },
           },
         ],

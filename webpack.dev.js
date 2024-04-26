@@ -1,16 +1,14 @@
-import merge from "webpack-merge";
-import { resolve } from "path";
-import common from "./webpack.common.js";
-import nodeExternals from "webpack-node-externals";
+const { merge } = require("webpack-merge");
+const common = require("./webpack.common.js");
+const path = require("path");
 
-export default merge(common, {
+module.exports = merge(common, {
   mode: "development",
-  externals: [nodeExternals()],
   devtool: "eval-source-map",
   // devtool: 'inline-source-map',
   devServer: {
     // hot: true,
-    static: resolve(__dirname, "dist"),
+    static: path.resolve(__dirname, "dist"),
     // open: true,
     compress: true,
     client: {
