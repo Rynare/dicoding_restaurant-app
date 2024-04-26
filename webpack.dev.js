@@ -1,4 +1,4 @@
-import { merge } from "webpack-merge";
+import merge from "webpack-merge";
 import { resolve } from "path";
 import common from "./webpack.common.js";
 

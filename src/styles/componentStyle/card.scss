@@ -28,12 +28,13 @@
         padding: 0px 2px;
 
         p {
-            overflow-y: auto;
+            $height: 5;
+            overflow-y: hidden;
             text-overflow: ellipsis;
-            // -webkit-line-clamp: 5;
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            height: 6em;
+            -webkit-line-clamp: $height;
+            height: calc(1.2rem * $height);
             padding-right: 5px;
 
             &::-webkit-scrollbar {
