@@ -21,13 +21,33 @@
       font-style: normal;
     }
   </style>
+  <style class="fake-style">
+    .fake-content {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: wait;
+    }
 
-</head>
+    .loader {
+      width: 50px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        radial-gradient(farthest-side, #bb0404 94%, #0000) top/8px 8px no-repeat,
+        conic-gradient(#0000 30%, #bb0404);
+      mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+      animation: l13 1s infinite linear;
+    }
 
-<body>
-  <!-- <dialog>buat fitur nanti</dialog> -->
-  <a onclick="scrollToSection('#maincontent')" class="skip-link" tabindex="0">Skip To Content</a>
-  <button onclick="document.body.scrollTo(0,0)" class="scrollToTop"><i class="bi bi-chevron-double-up"></i></button>
+    @keyframes l13 {
+      100% {
+        transform: rotate(1turn)
+      }
+    }
+  </style>
   <style>
     .scrollToTop {
       visibility: hidden;
@@ -42,8 +62,29 @@
       font-weight: bold;
     }
   </style>
+  <script class="fake-script">
+    document.onreadystatechange = function () {
+      if (document.readyState === "complete") {
+        document.querySelector('.fake-content').remove();
+        document.querySelector('#app').removeAttribute('style');
+        document.onreadystatechange = null;
+        document.querySelector('.fake-style').remove();
+        document.querySelector('.fake-script').remove();
+      }
+    };
+  </script>
+</head>
 
-  <div id="app">
+<body>
+  <div class="fake-content">
+    <div class="loader-wrapper">
+      <div class="loader"></div>
+    </div>
+  </div>
+  <!-- <dialog>buat fitur nanti</dialog> -->
+  <a onclick="scrollToSection('#maincontent')" class="skip-link" tabindex="0">Skip To Content</a>
+  <button onclick="document.body.scrollTo(0,0)" class="scrollToTop"><i class="bi bi-chevron-double-up"></i></button>
+  <div id="app" style="display: none;">
     <header>
       <nav>
         <a tabindex="0" href="#">
@@ -57,7 +98,8 @@
           <li><a is="link-router" href="/favorite">Favorite</a></li>
           <li><a href="https://github.com/rynare" target="_blank">About Us</a></li>
         </ul>
-        <button for="hamburger" class="hamburger-btn btn" tabindex="0"><i class="bi bi-list"></i></button>
+        <button for="hamburger" class="hamburger-btn btn" tabindex="0"
+          aria-label="tombol untuk membuka menu navigasi"><i class="bi bi-list"></i></button>
       </nav>
     </header>
     <aside>
@@ -70,7 +112,6 @@
       </nav>
     </aside>
     <main id="app-content">
-
     </main>
     <footer>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -84,6 +125,40 @@
     </footer>
   </div>
 
+  <template id="loader-template">
+    <div class="loader-container">
+      <div class="loader-wrapper">
+        <div class="loader"></div>
+      </div>
+    </div>
+    <style>
+      .loader-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: wait;
+      }
+
+      .loader {
+        width: 50px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background:
+          radial-gradient(farthest-side, #bb0404 94%, #0000) top/8px 8px no-repeat,
+          conic-gradient(#0000 30%, #bb0404);
+        mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+        animation: l13 1s infinite linear;
+      }
+
+      @keyframes l13 {
+        100% {
+          transform: rotate(1turn)
+        }
+      }
+    </style>
+  </template>
   <template id="card-template">
     <div class="card">
       <div class="card-img">

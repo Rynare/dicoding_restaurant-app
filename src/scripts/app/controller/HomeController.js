@@ -4,7 +4,6 @@ import { RestaurantCard } from "../../utils/restaurant/RestaurantCard.js";
 import { Restaurants } from "../../utils/restaurant/Restaurants.js";
 import { Controller } from "./Controller.js";
 import { RestaurantListElementHandler } from "../../utils/restaurant/RestaurantListElementHandler.js";
-import { FavoriteRestaurantsIndexedDB } from "../../data/favorite-restaurants.js";
 
 class HomeController extends Controller {
   constructor() {
@@ -33,31 +32,49 @@ class HomeController extends Controller {
     }
 
     const renderList = async (objectData) => {
-      const datas = objectData || await this._restaurants.getAllData();
-      const { restaurants } = datas;
-      this._restaurantListElementHandler.removeAll();
-      restaurants.forEach((value) => {
-        const restaurantCard = new RestaurantCard("#card-template");
-        const newCard = restaurantCard.makeCard(value);
-        this._restaurantListElementHandler.appendCard(newCard);
-      });
+      try {
+        const datas = objectData || await this._restaurants.getAllData();
+        const { restaurants } = datas;
+        this._restaurantListElementHandler.removeAll();
+        restaurants.forEach((value) => {
+          const restaurantCard = new RestaurantCard("#card-template");
+          const newCard = restaurantCard.makeCard(value);
+          this._restaurantListElementHandler.appendCard(newCard);
+        });
+      } catch (error) {
+        swalNotify({
+          icon: "error",
+          title: "Error!",
+          text: "Gagal mendapatkan data dari server"
+        });
+        console.error("gagal mengambil data dari server:", error);
+      }
     };
 
     const listenSearch = () => {
       const searchInput = $(".search-bar [name=search-resto]");
 
       const searchAction = async (keyword) => {
-        const result = await this._restaurants.getByKeyword(keyword);
-        if (result.founded > 0) {
-          renderList(result);
-        } else {
+        try {
+          const result = await this._restaurants.getByKeyword(keyword);
+          if (result.founded > 0) {
+            renderList(result);
+          } else {
+            swalNotify({
+              title: "Upps...",
+              text: "Data tidak ditemukan.",
+              icon: "error",
+              timer: 2000,
+            });
+            this._restaurantListElementHandler.noData();
+          }
+        } catch (error) {
           swalNotify({
-            title: "Upps...",
-            text: "Data tidak ditemukan.",
             icon: "error",
-            timer: 2000,
+            title: "Error!",
+            text: "Gagal mendapatkan data dari server"
           });
-          this._restaurantListElementHandler.noData();
+          console.error("gagal mengambil data dari server:", error);
         }
       };
 

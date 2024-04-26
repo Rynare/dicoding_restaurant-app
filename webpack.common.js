@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const { GenerateSW } = require("workbox-webpack-plugin");
+const { GenerateSW, InjectManifest } = require("workbox-webpack-plugin");
 
 const appTitle = "Food Master";
 
@@ -72,25 +72,30 @@ module.exports = {
         },
       },
     }),
-    new GenerateSW({
-      swDest: "workBoxServiceWorker.js",
+    new InjectManifest({
+      swSrc: path.resolve(__dirname, "src/scripts/utils/service-worker/InjectManifest.js"),
+      swDest: "sw.bundle.js",
       maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
-      runtimeCaching: [
-        {
-          urlPattern: ({ url }) => url.href.startsWith("https://restaurant-api.dicoding.dev/"),
-          handler: "StaleWhileRevalidate",
-          options: {
-            cacheName: "restaurants-api",
-          },
-        },
-        // {
-        //   urlPattern: ({ url }) => url.href.startsWith('https://image.tmdb.org/t/p/w500/'),
-        //   handler: 'StaleWhileRevalidate',
-        //   options: {
-        //     cacheName: 'themoviedb-image-api',
-        //   },
-        // },
-      ],
     }),
+    // new GenerateSW({
+    //   swDest: "workBoxServiceWorker.js",
+    //   maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
+    //   runtimeCaching: [
+    //     {
+    //       urlPattern: ({ url }) => url.href.startsWith("https://restaurant-api.dicoding.dev/"),
+    //       handler: "StaleWhileRevalidate",
+    //       options: {
+    //         cacheName: "restaurants-api",
+    //       },
+    //     },
+    //     // {
+    //     //   urlPattern: ({ url }) => url.href.startsWith('https://image.tmdb.org/t/p/w500/'),
+    //     //   handler: 'StaleWhileRevalidate',
+    //     //   options: {
+    //     //     cacheName: 'themoviedb-image-api',
+    //     //   },
+    //     // },
+    //   ],
+    // }),
   ],
 };

@@ -2,6 +2,7 @@ import $ from "jquery";
 import { Restaurants } from "../../utils/restaurant/Restaurants.js";
 import { Controller } from "./Controller.js";
 import { FavoriteRestaurantsIndexedDB } from "../../data/favorite-restaurants.js";
+import { swalNotify } from "../../swal.js";
 
 class DetailRestaurantController extends Controller {
   constructor() {
@@ -19,7 +20,7 @@ class DetailRestaurantController extends Controller {
     const result = await this.fetchDetail();
     const { renderReview } = this;
 
-    if (result.error === false) {
+    if (result !== false && result.error === false) {
       const {
         id, name, description, city, address, pictureId, categories, menus, rating, customerReviews,
       } = result.restaurant;
@@ -44,10 +45,10 @@ class DetailRestaurantController extends Controller {
       $("address").html(`<i class="bi bi-geo-alt-fill" style="color:red;"></i> ${address}, ${city}`);
       $(".restaurant-description").text(description);
       $(".menu-list-category .foods").html(
-        `<li>${foods.map((food) => `${food.name}`).join("</li><li>")}</li>`,
+        `<li tabindex="0">${foods.map((food) => `${food.name}`).join("</li><li tabindex='0'>")}</li>`,
       );
       $(".menu-list-category .drinks").html(
-        `<li>${drinks.map((drink) => drink.name).join("</li><li>")}</li>`,
+        `<li tabindex="0">${drinks.map((drink) => drink.name).join("</li><li tabindex='0'>")}</li>`,
       );
 
       renderReview(customerReviews);
@@ -70,7 +71,12 @@ class DetailRestaurantController extends Controller {
           $(".review-box form [type=reset]").trigger("click");
         }
       } catch (error) {
-        console.error(error);
+        swalNotify({
+          icon: "error",
+          title: "Error!",
+          text: "Gagal mendapatkan data dari server"
+        });
+        console.error("gagal mengambil data dari server:", error);
       }
     });
 
@@ -92,12 +98,21 @@ class DetailRestaurantController extends Controller {
 
   async fetchDetail() {
     const { id } = Controller.parameters;
-    const detail = await this._restaurants.getDetailById(id);
-
-    return detail;
+    try {
+      const detail = await this._restaurants.getDetailById(id);
+      return detail;
+    } catch (error) {
+      swalNotify({
+        icon: "error",
+        title: "Error!",
+        text: "Gagal mendapatkan data dari server"
+      });
+      console.error("gagal mengambil data dari server:", error);
+    }
+    return false;
   }
 
-  // eslint-disable-next-line class-methods-use-this
+   
   renderReview(customerReviews) {
     $(".restaurant-reviews-list").html(
       customerReviews.map((customerReview) => {
@@ -106,9 +121,9 @@ class DetailRestaurantController extends Controller {
                     <div class="review-bubble">
                         <span></span>
                         <div class="review-body">
-                            <div class="reviewer-name">${name}</div>
-                            <div class="reviewer-msg">${review}</div>
-                            <div class="review-date">${date}</div>
+                            <div class="reviewer-name" tabindex='0'>${name}</div>
+                            <div class="reviewer-msg" tabindex='0'>${review}</div>
+                            <div class="review-date" tabindex='0'>${date}</div>
                         </div>
                     </div>
                 `;
