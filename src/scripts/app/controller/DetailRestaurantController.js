@@ -55,6 +55,9 @@ class DetailRestaurantController extends Controller {
     }
 
     document.querySelector(".review-box form").addEventListener("submit", async function formSubmitEvent(event) {
+      const loaderTemplate = $("#loader-template").contents().clone();
+      loaderTemplate.appendTo(".review-box");
+
       event.preventDefault();
 
       const formData = new FormData(this);
@@ -78,6 +81,7 @@ class DetailRestaurantController extends Controller {
         });
         console.error("gagal mengambil data dari server:", error);
       }
+      loaderTemplate.remove();
     });
 
     const favBtn = $(".fav-btn");
