@@ -24,7 +24,6 @@ class App {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async renderPage() {
     const rawCurrentPath = window.location.hash || "/";
     // pecah hash menjadi segment
@@ -82,20 +81,17 @@ class App {
     this._hamburger.addEventListener("click", toggle);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   _getSelector(element) {
+    if (!element) return;
     let selector = "";
-
-    if (!element) return selector;
-
     while (element.parentNode) {
       if (element.id) {
-        selector = `#${element.id} ${selector}`;
+        selector = "#" + element.id + " " + selector;
         break;
       } else {
         let sibCount = 0;
         let sibIndex = 0;
-        const nodeName = element.nodeName.toLowerCase();
+        let nodeName = element.nodeName.toLowerCase();
         let sibling = element.previousSibling;
         while (sibling) {
           if (sibling.nodeType === 1 && sibling.nodeName.toLowerCase() === nodeName) {
@@ -113,18 +109,16 @@ class App {
           sibling = sibling.nextSibling;
         }
         if (sibIndex > 0) {
-          selector = `:${nodeName}nth-child(${sibIndex + 1}) ${selector}`;
+          selector = ":" + nodeName + "nth-child(" + (sibIndex + 1) + ")" + " " + selector;
         } else {
           selector = nodeName + selector;
         }
+        element = element.parentNode;
       }
     }
-
-    // eslint-disable-next-line consistent-return
     return selector.trim();
   }
 
-  // eslint-disable-next-line class-methods-use-this
   _isElementVisible(el) {
     const rect = el.getBoundingClientRect();
     let isVisible = (
