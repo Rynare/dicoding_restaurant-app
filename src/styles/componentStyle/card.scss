@@ -29,12 +29,12 @@
 
         p {
             $height: 5;
-            overflow-y: hidden;
-            text-overflow: ellipsis;
+            overflow-y: auto;
+            // text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: $height;
-            height: calc(1.2rem * $height);
+            // -webkit-line-clamp: $height;
+            height: calc(1.5rem * $height);
             padding-right: 5px;
 
             &::-webkit-scrollbar {
