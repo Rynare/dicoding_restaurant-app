@@ -77,7 +77,7 @@ class DetailRestaurantController extends Controller {
         swalNotify({
           icon: "error",
           title: "Error!",
-          text: "Gagal mendapatkan data dari server"
+          text: "Gagal mendapatkan data dari server",
         });
         console.error("gagal mengambil data dari server:", error);
       }
@@ -85,7 +85,7 @@ class DetailRestaurantController extends Controller {
     });
 
     const favBtn = $(".fav-btn");
-    favBtn.on("click", async (e) => {
+    favBtn.on("click", async () => {
       const isActive = favBtn.attr("is-active");
 
       if (isActive && isActive.toLowerCase() === "false") {
@@ -109,28 +109,27 @@ class DetailRestaurantController extends Controller {
       swalNotify({
         icon: "error",
         title: "Error!",
-        text: "Gagal mendapatkan data dari server"
+        text: "Gagal mendapatkan data dari server",
       });
       console.error("gagal mengambil data dari server:", error);
     }
     return false;
   }
 
-   
   renderReview(customerReviews) {
     $(".restaurant-reviews-list").html(
       customerReviews.map((customerReview) => {
         const { name, review, date } = customerReview;
         return `
-                    <div class="review-bubble">
-                        <span></span>
-                        <div class="review-body">
-                            <div class="reviewer-name" tabindex='0'>${name}</div>
-                            <div class="reviewer-msg" tabindex='0'>${review}</div>
-                            <div class="review-date" tabindex='0'>${date}</div>
-                        </div>
-                    </div>
-                `;
+          <div class="review-bubble">
+              <span></span>
+              <div class="review-body">
+                  <div class="reviewer-name" tabindex='0'>${name}</div>
+                  <div class="reviewer-msg" tabindex='0'>${review}</div>
+                  <div class="review-date" tabindex='0'>${date}</div>
+              </div>
+          </div>
+        `;
       }).join(""),
     );
   }

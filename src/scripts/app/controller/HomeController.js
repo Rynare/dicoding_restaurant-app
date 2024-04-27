@@ -45,7 +45,7 @@ class HomeController extends Controller {
         swalNotify({
           icon: "error",
           title: "Error!",
-          text: "Gagal mendapatkan data dari server"
+          text: "Gagal mendapatkan data dari server",
         });
         console.error("gagal mengambil data dari server:", error);
       }
@@ -72,7 +72,7 @@ class HomeController extends Controller {
           swalNotify({
             icon: "error",
             title: "Error!",
-            text: "Gagal mendapatkan data dari server"
+            text: "Gagal mendapatkan data dari server",
           });
           console.error("gagal mengambil data dari server:", error);
         }

@@ -11,13 +11,8 @@ const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({ baseDirectory: __dirname, recommendedConfig: js.configs.recommended });
 
 export default [
-  // ...compat.extends("airbnb-base"),
+  ...compat.extends("airbnb-base"),
   {
-    ignores: [
-      ".git/*",
-      "node_modules/*",
-      "dist/*",
-    ],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
@@ -41,14 +36,16 @@ export default [
       "no-use-before-define": 0,
       "no-plusplus": 0,
       "no-continue": 0,
+      "class-methods-use-this": 0,
+      "consistent-return":0,
       "no-useless-constructor": 0,
-      // "import/extensions": [
-      //   "error",
-      //   "ignorePackages",
-      //   {
-      //     js: "always",
-      //   },
-      // ],
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          js: "always",
+        },
+      ],
       indent: [
         "error",
         2,

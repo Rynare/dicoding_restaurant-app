@@ -1,18 +1,18 @@
 const WebSocketInitiator = {
   init(url) {
     const webSocket = new WebSocket(url);
-    webSocket.onopen = this._onOpenHandler;
-    webSocket.onmessage = this._onMessageHandler;
-    webSocket.onerror = this._onErrorHandler;
+    webSocket.onopen = this.onOpenHandler;
+    webSocket.onmessage = this.onMessageHandler;
+    webSocket.onerror = this.onErrorHandler;
   },
-  _onOpenHandler(event) {
+  onOpenHandler(event) {
     console.log(event, "WebSocket connection opened.");
   },
-  _onMessageHandler(event) {
+  onMessageHandler(event) {
     console.log("Received message:", event.data);
     console.log("Parsed message:", JSON.parse(event.data));
   },
-  _onErrorHandler(error) {
+  onErrorHandler(error) {
     console.error("WebSocket error:", error);
   },
 };

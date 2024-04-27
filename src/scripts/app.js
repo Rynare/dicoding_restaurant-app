@@ -82,24 +82,25 @@ class App {
   }
 
   _getSelector(element) {
-    if (!element) return;
+    let theElement = element;
+    if (!theElement) return;
     let selector = "";
-    while (element.parentNode) {
-      if (element.id) {
-        selector = "#" + element.id + " " + selector;
+    while (theElement.parentNode) {
+      if (theElement.id) {
+        selector = `#${theElement.id} ${selector}`;
         break;
       } else {
         let sibCount = 0;
         let sibIndex = 0;
-        let nodeName = element.nodeName.toLowerCase();
-        let sibling = element.previousSibling;
+        const nodeName = theElement.nodeName.toLowerCase();
+        let sibling = theElement.previousSibling;
         while (sibling) {
           if (sibling.nodeType === 1 && sibling.nodeName.toLowerCase() === nodeName) {
             sibCount++;
           }
           sibling = sibling.previousSibling;
         }
-        sibling = element.nextSibling;
+        sibling = theElement.nextSibling;
         while (sibling) {
           if (sibling.nodeType === 1 && sibling.nodeName.toLowerCase() === nodeName) {
             if (++sibIndex === sibCount) {
@@ -109,11 +110,11 @@ class App {
           sibling = sibling.nextSibling;
         }
         if (sibIndex > 0) {
-          selector = ":" + nodeName + "nth-child(" + (sibIndex + 1) + ")" + " " + selector;
+          selector = `:${nodeName}nth-child(${sibIndex + 1}) ${selector}`;
         } else {
           selector = nodeName + selector;
         }
-        element = element.parentNode;
+        theElement = theElement.parentNode;
       }
     }
     return selector.trim();

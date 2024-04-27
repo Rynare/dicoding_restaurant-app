@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
+    cursor: default;
 }
 
 html,
@@ -24,14 +25,9 @@ img {
 }
 
 input,
-textarea {
-    cursor: text;
-}
-
-input:is([type=button], [type=date]),
+textarea,
 button,
 .btn {
-    cursor: pointer;
     min-height: 44px;
     min-width: 44px;
 }
@@ -43,9 +39,20 @@ button,
     border-radius: 8px;
 }
 
+input,
+textarea {
+    cursor: text !important;
+}
+
 a,
+button,
+.btn,
 .cursor-pointer {
-    cursor: pointer;
+    cursor: pointer !important;
+}
+
+i.bi {
+    cursor: inherit;
 }
 
 dialog {
