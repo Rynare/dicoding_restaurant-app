@@ -1,12 +1,12 @@
 import UrlParser from "./routes/link-parser/url-parser.js";
 import { compareUrlWithPattern } from "./routes/router.js";
 import { routes } from "./routes/web.js";
-import { view } from "./utils/view-helper.js";
+import { renderView } from "./utils/view-helper.js";
 
 class App {
-  static isReady = false;
-
   static mainContent = document.querySelector("#app-content");
+
+  static isReady = false;
 
   constructor({ hamburger, drawer, content }) {
     if (App.isReady) {
@@ -44,7 +44,7 @@ class App {
       }
       doAction = filteredRoutes[0].action;
     } else {
-      doAction = () => view("/pages/404.html");
+      doAction = () => renderView("/pages/404.html");
     }
     doAction();
     if (filteredRoutes[0].request.parameter.length > 0) {

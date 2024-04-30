@@ -164,31 +164,6 @@
       }
     </style>
   </template>
-  <template id="card-template">
-    <div class="card">
-      <div class="card-img">
-        <img src="" alt="" onerror="this.src = './images/assets/error-pict-landscape.png'" id="restaurant-img">
-      </div>
-      <div class="card-header">
-        <div class="restaurant-location-container">
-          <i class="bi bi-geo-alt-fill"></i>
-          <span id="restaurant-location" tabindex="0">Lokasi</span>
-        </div>
-        <h3 id="restaurant-name" tabindex="0">Nama</h3>
-        <rating-component></rating-component>
-      </div>
-      <div class="card-description">
-        <p id="restaurant-description" tabindex="0">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ea quasi corporis nesciunt quas provident
-          facilis nulla enim repudiandae incidunt at. Quia magnam nobis debitis nemo voluptas rerum praesentium odio
-          velit?
-        </p>
-      </div>
-      <div class="card-footer">
-        <a href="" id="open-detail-btn" class="btn">Detail</a>
-      </div>
-    </div>
-  </template>
   <script>
     function scrollToSection(sectionId) {
       const section = document.querySelector(sectionId);

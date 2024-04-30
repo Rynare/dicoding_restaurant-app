@@ -1,24 +1,20 @@
 import $ from "jquery";
 import { swalNotify } from "../../swal.js";
-import { RestaurantCard } from "../../utils/restaurant/RestaurantCard.js";
-import { Restaurants } from "../../utils/restaurant/Restaurants.js";
+import { RestaurantList } from "../../reusable-components/RestaurantList.js";
+import { RestaurantCard } from "../../reusable-components/RestaurantCard.js";
+import { RestaurantsApi } from "../../data/RestaurantsApi.js";
 import { Controller } from "./Controller.js";
-import { RestaurantListElementHandler } from "../../utils/restaurant/RestaurantListElementHandler.js";
 
 class HomeController extends Controller {
   constructor() {
     super();
-    this._restaurantListElementHandler = null;
-    this._restaurants = null;
-    this._isRendered = false;
+    this._restaurantList = new RestaurantList(".restaurant-list");
   }
 
   async index() {
-    this._view = await this._fetchView("/pages/home.html");
-    this._renderPage();
+    await this.view("/pages/home.html");
 
-    this._restaurantListElementHandler = new RestaurantListElementHandler(".restaurant-list");
-    this._restaurants = new Restaurants();
+    const { getAllData, getByKeyword } = RestaurantsApi;
 
     function randomizeJumbotronContent() {
       const desc = [
@@ -33,13 +29,13 @@ class HomeController extends Controller {
 
     const renderList = async (objectData) => {
       try {
-        const datas = objectData || await this._restaurants.getAllData();
+        const datas = objectData || await getAllData();
         const { restaurants } = datas;
-        this._restaurantListElementHandler.removeAll();
+        this._restaurantList.removeAll();
         restaurants.forEach((value) => {
-          const restaurantCard = new RestaurantCard("#card-template");
+          const restaurantCard = new RestaurantCard();
           const newCard = restaurantCard.makeCard(value);
-          this._restaurantListElementHandler.appendCard(newCard);
+          this._restaurantList.appendCard(newCard);
         });
       } catch (error) {
         swalNotify({
@@ -56,7 +52,7 @@ class HomeController extends Controller {
 
       const searchAction = async (keyword) => {
         try {
-          const result = await this._restaurants.getByKeyword(keyword);
+          const result = await getByKeyword(keyword);
           if (result.founded > 0) {
             renderList(result);
           } else {
@@ -66,7 +62,7 @@ class HomeController extends Controller {
               icon: "error",
               timer: 2000,
             });
-            this._restaurantListElementHandler.noData();
+            this._restaurantList.noData();
           }
         } catch (error) {
           swalNotify({

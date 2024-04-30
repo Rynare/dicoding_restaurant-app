@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { Restaurants } from "../../utils/restaurant/Restaurants.js";
+import { RestaurantsApi } from "../../data/RestaurantsApi.js";
 import { Controller } from "./Controller.js";
 import { FavoriteRestaurantsIndexedDB } from "../../data/favorite-restaurants.js";
 import { swalNotify } from "../../swal.js";
@@ -7,16 +7,15 @@ import { swalNotify } from "../../swal.js";
 class DetailRestaurantController extends Controller {
   constructor() {
     super();
-    this._restaurants = null;
   }
 
   static restaurantShortData;
 
   async index() {
-    this._view = await this._fetchView("/pages/resto-detail.html");
-    this._renderPage();
+    await this.view("/pages/resto-detail.html");
 
-    this._restaurants = new Restaurants();
+    const { getImageResolutionUrl, addReview } = RestaurantsApi;
+
     const result = await this.fetchDetail();
     const { renderReview } = this;
 
@@ -33,7 +32,7 @@ class DetailRestaurantController extends Controller {
         city: result.restaurant.city,
       };
       const { foods, drinks } = menus;
-      const imageUrl = Restaurants.getImageResolutionUrl({ resolution: "medium", pictureId });
+      const imageUrl = getImageResolutionUrl({ resolution: "medium", pictureId });
 
       const indexDB = await FavoriteRestaurantsIndexedDB.getRestaurant(id);
       const isFav = indexDB !== undefined;
@@ -68,7 +67,7 @@ class DetailRestaurantController extends Controller {
       };
 
       try {
-        const isSuccessAddReview = await Restaurants.addReview(formDataObject);
+        const isSuccessAddReview = await addReview(formDataObject);
         if (isSuccessAddReview.error === false) {
           renderReview(isSuccessAddReview.customerReviews);
           $(".review-box form [type=reset]").trigger("click");
@@ -103,7 +102,7 @@ class DetailRestaurantController extends Controller {
   async fetchDetail() {
     const { id } = Controller.parameters;
     try {
-      const detail = await this._restaurants.getDetailById(id);
+      const detail = await RestaurantsApi.getDetailById(id);
       return detail;
     } catch (error) {
       swalNotify({

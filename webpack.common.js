@@ -10,7 +10,7 @@ const appTitle = "Food Master";
 module.exports = {
   entry: {
     index: path.resolve(__dirname, "src/scripts/index.js"),
-    components: path.resolve(__dirname, "src/scripts/components/components.min.js"),
+    components: path.resolve(__dirname, "src/scripts/web-components/components.min.js"),
     style: path.resolve(__dirname, "src/styles/style.js"),
     serviceWorkerHandler: path.resolve(__dirname, "src/scripts/utils/service-worker/ServiceWorkerHandler.js"),
     /// / webSocketHandler: path.resolve(__dirname, 'src/scripts/utils/websocket/websocket-handler.js'),

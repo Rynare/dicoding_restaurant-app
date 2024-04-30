@@ -1,6 +1,6 @@
 import { FavoriteRestaurantsIndexedDB } from "../../data/favorite-restaurants.js";
-import { RestaurantCard } from "../../utils/restaurant/RestaurantCard.js";
-import { RestaurantListElementHandler } from "../../utils/restaurant/RestaurantListElementHandler.js";
+import { RestaurantCard } from "../../reusable-components/RestaurantCard.js";
+import { RestaurantList } from "../../reusable-components/RestaurantList.js";
 import { Controller } from "./Controller.js";
 
 class FavoriteRestaurantController extends Controller {
@@ -9,15 +9,14 @@ class FavoriteRestaurantController extends Controller {
   }
 
   async index() {
-    this._view = await this._fetchView("./pages/favorite.html");
-    this._renderPage();
+    await this.view("./pages/favorite.html");
 
-    this.favList = new RestaurantListElementHandler(".favorite-restaurant-list");
+    const favList = new RestaurantList(".favorite-restaurant-list");
     const restaurants = await FavoriteRestaurantsIndexedDB.getAllRestaurants();
     restaurants.forEach((restaurant) => {
       const restaurantCard = new RestaurantCard("#card-template");
       const newCard = restaurantCard.makeCard(restaurant);
-      this.favList.appendCard(newCard);
+      favList.appendCard(newCard);
     });
   }
 }
