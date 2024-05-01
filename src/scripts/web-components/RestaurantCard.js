@@ -8,7 +8,7 @@ class RestaurantCard {
     }
     this._template = $("<div>").addClass("card");
   }
-  
+
   makeCard({
     id, name, description, pictureId, city, rating,
   }) {
@@ -37,7 +37,7 @@ class RestaurantCard {
     return this;
   }
 
-  getCard() { 
+  getCard() {
     return this._template;
   }
 }

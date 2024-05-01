@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
     content: document.querySelector("#app-content"),
   });
 
-  window.addEventListener("hashchange", () => {
-    app.renderPage();
+  window.addEventListener("hashchange", async () => {
+    await app.renderPage();
   });
 
-  window.addEventListener("load", () => {
-    app.renderPage();
+  window.addEventListener("load", async () => {
+    await app.renderPage();
   });
 });

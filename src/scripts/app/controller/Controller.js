@@ -19,6 +19,7 @@ class Controller {
 
   async view(viewUrl) {
     await renderView(viewUrl);
+    document.body.scrollTo(0, 0);
   }
 }
 

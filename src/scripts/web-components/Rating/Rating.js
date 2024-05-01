@@ -1,3 +1,5 @@
+import "./rating.scss";
+
 class RatingComponent extends HTMLElement {
   static get observedAttributes() {
     return ["rating"];

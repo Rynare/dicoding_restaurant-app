@@ -1,18 +1,19 @@
 import $ from "jquery";
 import { swalNotify } from "../../swal.js";
-import { RestaurantList } from "../../reusable-components/RestaurantList.js";
-import { RestaurantCard } from "../../reusable-components/RestaurantCard.js";
+import { RestaurantList } from "../../web-components/RestaurantList.js";
+import { RestaurantCard } from "../../web-components/RestaurantCard.js";
 import { RestaurantsApi } from "../../data/RestaurantsApi.js";
 import { Controller } from "./Controller.js";
 
 class HomeController extends Controller {
   constructor() {
     super();
-    this._restaurantList = new RestaurantList(".restaurant-list");
+    this._restaurantList = null;
   }
 
   async index() {
     await this.view("/pages/home.html");
+    this._restaurantList = new RestaurantList(".restaurant-list");
 
     const { getAllData, getByKeyword } = RestaurantsApi;
 

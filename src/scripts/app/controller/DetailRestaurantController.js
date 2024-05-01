@@ -1,8 +1,9 @@
 import $ from "jquery";
-import { RestaurantsApi } from "../../data/RestaurantsApi.js";
 import { Controller } from "./Controller.js";
+import { RestaurantsApi } from "../../data/RestaurantsApi.js";
 import { FavoriteRestaurantsIndexedDB } from "../../data/favorite-restaurants.js";
 import { swalNotify } from "../../swal.js";
+import { LikeButton } from "../../web-components/LikeButton.js";
 
 class DetailRestaurantController extends Controller {
   constructor() {
@@ -17,8 +18,8 @@ class DetailRestaurantController extends Controller {
     const { getImageResolutionUrl, addReview } = RestaurantsApi;
 
     const result = await this.fetchDetail();
-    const { renderReview } = this;
 
+    const { renderReview } = this;
     if (result !== false && result.error === false) {
       const {
         id, name, description, city, address, pictureId, categories, menus, rating, customerReviews,
@@ -49,6 +50,12 @@ class DetailRestaurantController extends Controller {
       $(".menu-list-category .drinks").html(
         `<li tabindex="0">${drinks.map((drink) => drink.name).join("</li><li tabindex='0'>")}</li>`,
       );
+
+      new LikeButton({
+        container: document.querySelector(".fav-btn-wrapper"),
+        restaurantData: DetailRestaurantController.restaurantShortData,
+        isActive: await FavoriteRestaurantsIndexedDB.getRestaurant(Controller.parameters.id),
+      }).render().addClickEvent();
 
       renderReview(customerReviews);
     }
@@ -81,21 +88,6 @@ class DetailRestaurantController extends Controller {
         console.error("gagal mengambil data dari server:", error);
       }
       loaderTemplate.remove();
-    });
-
-    const favBtn = $(".fav-btn");
-    favBtn.on("click", async () => {
-      const isActive = favBtn.attr("is-active");
-
-      if (isActive && isActive.toLowerCase() === "false") {
-        const isSuccessPutFav = await FavoriteRestaurantsIndexedDB.putRestaurant(DetailRestaurantController.restaurantShortData);
-        if (isSuccessPutFav === Controller.parameters.id) {
-          favBtn.attr("is-active", "true");
-        }
-      } else {
-        favBtn.attr("is-active", "false");
-        await FavoriteRestaurantsIndexedDB.deleteRestaurant(Controller.parameters.id);
-      }
     });
   }
 

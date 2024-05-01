@@ -4,19 +4,15 @@ import { routes } from "./routes/web.js";
 import { renderView } from "./utils/view-helper.js";
 
 class App {
-  static mainContent = document.querySelector("#app-content");
-
-  static isReady = false;
+  static mainContent = null;
 
   constructor({ hamburger, drawer, content }) {
-    if (App.isReady) {
+    if (App.mainContent !== null) {
       throw new Error("Anda hanya bisa membuat 1 instance app");
     } else {
       this._hamburger = hamburger;
       this._drawer = drawer;
       this._content = content;
-
-      App.isReady = true;
 
       this._listenDrawer();
       this._listenTabIndex();

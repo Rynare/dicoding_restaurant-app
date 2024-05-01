@@ -5,7 +5,6 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "./componentStyle/basic.scss";
 import "./componentStyle/bubble-chat.scss";
 import "./componentStyle/card.scss";
-import "./componentStyle/rating.scss";
 import "./componentStyle/scroll-bar.scss";
 import "./componentStyle/search-bar.scss";
 

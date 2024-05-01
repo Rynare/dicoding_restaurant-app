@@ -2,7 +2,7 @@ import { openDB } from "idb";
 import CONFIG from "../globals/config.js";
 
 const { INDEXED_DB_NAME, INDEXED_DB_VERSION } = CONFIG;
-const OBJECT_STORE_NAME = 'favorite-restaurant'
+const OBJECT_STORE_NAME = "favorite-restaurant";
 const dbPromise = openDB(INDEXED_DB_NAME, INDEXED_DB_VERSION, {
   upgrade(database) {
     database.createObjectStore(OBJECT_STORE_NAME, { keyPath: "id" });

@@ -1,6 +1,6 @@
 import { FavoriteRestaurantsIndexedDB } from "../../data/favorite-restaurants.js";
-import { RestaurantCard } from "../../reusable-components/RestaurantCard.js";
-import { RestaurantList } from "../../reusable-components/RestaurantList.js";
+import { RestaurantCard } from "../../web-components/RestaurantCard.js";
+import { RestaurantList } from "../../web-components/RestaurantList.js";
 import { Controller } from "./Controller.js";
 
 class FavoriteRestaurantController extends Controller {

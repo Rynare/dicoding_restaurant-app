@@ -37,7 +37,8 @@ export default [
       "no-plusplus": 0,
       "no-continue": 0,
       "class-methods-use-this": 0,
-      "consistent-return":0,
+      "consistent-return": 0,
+      "import/no-cycle": 0,
       "no-useless-constructor": 0,
       "import/extensions": [
         "error",
@@ -60,4 +61,7 @@ export default [
       ],
     },
   },
+  {
+    ignores: ["dist/", "tests/"]
+  }
 ];
