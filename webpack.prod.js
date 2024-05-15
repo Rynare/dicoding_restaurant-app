@@ -3,8 +3,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const common = require("./webpack.common.js");
 const TerserPlugin = require("terser-webpack-plugin");
+const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
   mode: "production",
