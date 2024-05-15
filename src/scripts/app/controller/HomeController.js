@@ -34,9 +34,13 @@ class HomeController extends Controller {
         const { restaurants } = datas;
         this._restaurantList.removeAll();
         restaurants.forEach((value) => {
-          const restaurantCard = new RestaurantCard();
-          const newCard = restaurantCard.makeCard(value);
-          this._restaurantList.appendCard(newCard);
+          try {
+            const restaurantCard = new RestaurantCard();
+            const newCard = restaurantCard.makeCard(value);
+            this._restaurantList.appendCard(newCard);
+          } catch (error) {
+            console.error(error);
+          }
         });
       } catch (error) {
         swalNotify({

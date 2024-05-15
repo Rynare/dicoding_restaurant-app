@@ -17,6 +17,13 @@ const FavoriteRestaurantsIndexedDB = {
     return (await dbPromise).getAll(OBJECT_STORE_NAME);
   },
   async putRestaurant(restaurant) {
+    const {
+      id, name, description, pictureId, rating, city,
+    } = restaurant;
+    const arrayDatas = [id, name, description, pictureId, rating, city];
+    if (arrayDatas.some((prop) => prop === null || prop === undefined)) {
+      throw new Error("Restaurant harus memilki id, name, description, pictureId, rating, city");
+    }
     return (await dbPromise).put(OBJECT_STORE_NAME, restaurant);
   },
   async deleteRestaurant(id) {

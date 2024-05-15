@@ -27,8 +27,8 @@ self.addEventListener("push", (event) => {
     title: "Push Notification",
     options: {
       body: "This is a push notification",
-      icon: "/favicon.png",
-      image: "/icon-512x512/icon-512x512.jpg",
+      icon: "/favicon.webp",
+      image: "/icon-512x512/icon-512x512.webp",
     },
   };
 

@@ -7,11 +7,16 @@ class SwitchButton extends HTMLButtonElement {
     super();
   }
 
-  connectedCallback() {
-    const hasChildren = ((document.querySelectorAll(":is(.active,.inactive)") || "").length === 2);
+  hasChildren() {
+    const hasChildren = ((this.querySelectorAll(":is(.active,.inactive)") || "").length === 2);
     if (!hasChildren) {
-      console.error("Like button harus memiliki 2 children dengan class active dan inactive");
+      throw new Error("Like button harus memiliki 2 children dengan class active dan inactive");
     }
+    return true;
+  }
+
+  connectedCallback() {
+    this.hasChildren();
     if (!this.hasAttribute("is-active")) {
       this.setAttribute("is-active", false);
     }
@@ -19,7 +24,7 @@ class SwitchButton extends HTMLButtonElement {
 
   buttonSwitcher() {
     const isActive = this.getAttribute("is-active") === "true";
-    if (isActive) {
+    if (this.hasChildren() && isActive) {
       this.querySelector(".active").style.display = "inline";
       this.querySelector(".inactive").style.display = "none";
     } else {

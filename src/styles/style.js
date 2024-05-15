@@ -1,5 +1,5 @@
 //! Outer style
-import "bootstrap-icons/font/bootstrap-icons.css";
+// import "bootstrap-icons/font/bootstrap-icons.css";
 
 //! Components style
 import "./componentStyle/basic.scss";

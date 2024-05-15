@@ -2,9 +2,22 @@
     #app {
         main {
             .jumbotron {
+                aspect-ratio: 3/1.2;
+
+                .jumbotron-bg {
+                    img {
+                        aspect-ratio: 3/1.2;
+                    }
+
+                }
+
                 .jumbotron-content {
+                    padding-top: 5rem;
+                    justify-content: unset;
+
                     .jumbotron-headline {
-                        margin-top: 4rem;
+                        font-size: 4.6vw;
+                        margin-top: 0;
                         // font-size: 3rem;
                     }
 
@@ -14,8 +27,17 @@
                 }
             }
 
+            .search-bar {
+                margin: 24px auto;
+            }
+
             .restaurant-list {
                 padding: 16px 24px;
+
+                .card {
+                    flex-basis: 31%;
+                    // max-width: 260px;
+                }
             }
 
             .detail-restaurant {

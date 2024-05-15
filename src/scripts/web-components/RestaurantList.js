@@ -23,10 +23,10 @@ class RestaurantList {
     this._parent.html("");
   }
 
-  noData() {
+  noData(msg) {
     this._parent.html(`
-            <div>
-                <p style="text-align: center;color: red;" tabindex="0">Upps...Data tidak ditemukan.</p>
+            <div id="empty_restaurant_list">
+                <p style="text-align: center;color: red;" tabindex="0">${msg || "Upps...Data tidak ditemukan."}</p>
             </div>
         `);
   }

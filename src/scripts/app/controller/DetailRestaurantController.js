@@ -3,7 +3,7 @@ import { Controller } from "./Controller.js";
 import { RestaurantsApi } from "../../data/RestaurantsApi.js";
 import { FavoriteRestaurantsIndexedDB } from "../../data/favorite-restaurants.js";
 import { swalNotify } from "../../swal.js";
-import { LikeButton } from "../../web-components/LikeButton.js";
+import { FavButton } from "../../web-components/FavButton.js";
 
 class DetailRestaurantController extends Controller {
   constructor() {
@@ -40,7 +40,7 @@ class DetailRestaurantController extends Controller {
       $(".fav-btn").attr("is-active", isFav);
       $(".detail-header.restaurant-image").css("background-image", `url(${imageUrl})`);
       $(".restaurant-name").text(name);
-      $("rating-component").attr("rating", rating);
+      $("star-rating").attr("rating", rating);
       $(".restaurant-categories").html(`<i class="bi bi-tag" style="color: gold;"></i> ${categories.map((category) => `${category.name}`).join(", ")}`);
       $("address").html(`<i class="bi bi-geo-alt-fill" style="color:red;"></i> ${address}, ${city}`);
       $(".restaurant-description").text(description);
@@ -51,7 +51,7 @@ class DetailRestaurantController extends Controller {
         `<li tabindex="0">${drinks.map((drink) => drink.name).join("</li><li tabindex='0'>")}</li>`,
       );
 
-      new LikeButton({
+      new FavButton({
         container: document.querySelector(".fav-btn-wrapper"),
         restaurantData: DetailRestaurantController.restaurantShortData,
         isActive: await FavoriteRestaurantsIndexedDB.getRestaurant(Controller.parameters.id),

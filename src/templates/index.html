@@ -14,6 +14,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
     rel="stylesheet">
+  <link rel="preload" fetchpriority="high" as="image" href="./images/heros/hero-image_1.webp" type="image/webp">
+
   <style>
     .delius-swash {
       font-family: "Delius Swash Caps", cursive;
@@ -88,14 +90,15 @@
     <header>
       <nav>
         <a tabindex="0" href="#">
-          <img src="./images/icon/logo-fit.png" alt="<%= htmlWebpackPlugin.options.title %> Logo">
+          <img data-src="./images/icon/logo-fit.webp" alt="<%= htmlWebpackPlugin.options.title %> Logo" class="lazyload"
+            fetchpriority="high" width="45" height="36">
           <h3 class="cursor-pointer" aria-hidden="true">
             Master
           </h3>
         </a>
         <ul>
           <li><a is="link-router" class="btn" href="/home">Home</a></li>
-          <li><a is="link-router" class="btn" href="/favorite">Favorite</a></li>
+          <li><a is="link-router" class="btn" href="/favorites">Favorite</a></li>
           <li><a href="https://github.com/rynare" class="btn" target="_blank">About Us</a></li>
         </ul>
         <button for="hamburger" class="hamburger-btn btn" tabindex="0"
@@ -106,7 +109,7 @@
       <nav>
         <ul>
           <li><a is="link-router" class="btn" href="/home">Home</a></li>
-          <li><a is="link-router" class="btn" href="/favorite">Favorite</a></li>
+          <li><a is="link-router" class="btn" href="/favorites">Favorite</a></li>
           <li><a href="https://github.com/rynare" class="btn" target="_blank">About Us</a></li>
         </ul>
       </nav>
@@ -124,7 +127,6 @@
       </div>
     </footer>
   </div>
-
   <template id="loader-template">
     <div class="loader-container">
       <div class="loader-wrapper">

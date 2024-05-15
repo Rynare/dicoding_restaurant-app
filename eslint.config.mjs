@@ -62,6 +62,6 @@ export default [
     },
   },
   {
-    ignores: ["dist/", "tests/"]
-  }
+    ignores: ["dist/", "tests/", "e2e/"],
+  },
 ];

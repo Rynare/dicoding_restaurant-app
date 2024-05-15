@@ -1,18 +1,36 @@
 @media screen and (min-width: 992px) {
     #app {
         main {
-            .jumbotron .jumbotron-content {
-                .jumbotron-description {
-                    width: 70%;
+            .jumbotron {
+                aspect-ratio: 3/1;
+
+                .jumbotron-bg {
+                    img {
+                        aspect-ratio: 3/1;
+                    }
+
                 }
 
-                .jumbotron-description {
-                    font-size: 1.5rem;
+                .jumbotron-content {
+                    padding-top: 8vw;
+
+                    .jumbotron-headline {
+                        font-size: 4.5vw;
+                    }
+
+                    .jumbotron-description {
+                        width: 70%;
+                    }
+
+                    .jumbotron-description {
+                        font-size: 1.5rem;
+                    }
                 }
             }
 
-            .restaurant-list {
-                grid-template-columns: repeat(4, minmax(200px, 1fr));
+            .restaurant-list .card {
+                flex-basis: 20%;
+                // max-width: 260px;
             }
 
             .detail-restaurant {
