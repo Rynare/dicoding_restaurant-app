@@ -34,7 +34,7 @@
             display: -webkit-box;
             -webkit-box-orient: vertical;
             // -webkit-line-clamp: $height;
-            height: calc(1.5rem * $height);
+            // height: calc(1.5rem * $height);
             padding-right: 5px;
 
             &::-webkit-scrollbar {

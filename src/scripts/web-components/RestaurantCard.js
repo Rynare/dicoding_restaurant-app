@@ -28,8 +28,8 @@ class RestaurantCard {
         <star-rating rating="${rating}"></star-rating>
       </div>
       <div class="card-description">
-        <p id="restaurant-description" tabindex="0" aria-label="deskripsi restoran: ${description}">
-          ${description}
+        <p id="restaurant-description" tabindex="0" aria-label="deskripsi restoran: ${this.createExcerpt(description, 150)}">
+          ${this.createExcerpt(description, 150)}
         </p>
       </div>
       <div class="card-footer">
@@ -38,6 +38,16 @@ class RestaurantCard {
     `;
     this._template.html(HTMLContent);
     return this;
+  }
+
+  createExcerpt(description, maxLength) {
+    if (!description || description.length === 0) {
+      return "";
+    }
+    if (description.length <= maxLength) {
+      return description;
+    }
+    return `${description.substring(0, maxLength)}...`;
   }
 
   getCard() {
