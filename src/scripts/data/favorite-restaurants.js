@@ -29,6 +29,16 @@ const FavoriteRestaurantsIndexedDB = {
   async deleteRestaurant(id) {
     return (await dbPromise).delete(OBJECT_STORE_NAME, id);
   },
+  async searchRestaurants(keyword) {
+    const restaurants = await this.getAllRestaurants();
+    const ret = [];
+    restaurants.forEach((resto) => {
+      if (resto.name.toLowerCase().includes(keyword.toLowerCase())) {
+        ret.push(resto);
+      }
+    });
+    return ret;
+  },
 };
 
 export { FavoriteRestaurantsIndexedDB };

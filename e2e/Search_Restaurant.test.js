@@ -26,23 +26,24 @@ Scenario('searching restaurant by name', async ({ I }) => {
 
 Scenario('searching restaurant by empty', async ({ I }) => {
     I.amOnPage('/');
-
+    
+    I.seeElement(".restaurant-list .card")
     const visibleRestaurantCountFirst = await I.grabNumberOfVisibleElements('.restaurant-list .card');
+    
     I.seeElement('.search-bar .search-input');
     I.fillField('.search-bar .search-input', "rdtcuygvibhnjkm");
     I.pressKey('Enter');
     I.fillField('.search-bar .search-input', "");
     I.pressKey('Enter');
     
+    I.seeElement(".restaurant-list .card")
     const visibleRestaurantCountFinal = await I.grabNumberOfVisibleElements('.restaurant-list .card');
 
     if (visibleRestaurantCountFinal === visibleRestaurantCountFirst) {
-        
         assert(true, 'All Restaurant showed in search results while empty.');
     } else {
-        assert(false, 'All restaurant not showed in search results while empty.');
-        
-        }
+        assert(false, 'All restaurant not showed in search results while empty.'); 
+    }
 
 });
 
