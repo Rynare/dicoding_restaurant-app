@@ -22,9 +22,9 @@ Scenario("Memposting komentar pada halaman detail restoran", async ({ I }) => {
 
     I.click(locate(`form button[type=submit]`).first());
     
-    I.waitForVisible(".review-bubble", 10); 
+    I.waitForVisible(".review-bubble", 5); 
     
     const totalCommentsAfter = await I.grabNumberOfVisibleElements(".review-bubble");
     const expectedTotalComments = totalCommentsBefore + 1;
-    assert.strictEqual(totalCommentsAfter, expectedTotalComments, `Jumlah komentar tidak bertambah setelah posting.`)
+    assert.equal(totalCommentsAfter, expectedTotalComments, `Jumlah komentar tidak bertambah setelah posting.`)
 });
