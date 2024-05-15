@@ -353,26 +353,61 @@ body {
     footer {
         position: relative;
         height: fit-content;
+        background-color: #bb0404;
+        display: flex;
+        padding: 24px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        row-gap: 8px;
 
-        path {
-            fill: #bb0404;
+        .social-media {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        div {
-            position: absolute;
+        $iconSize: 32px;
+
+        a {
+            display: block;
+            font-size: $iconSize;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 20px;
-            text-align: center;
-            width: 100%;
-            margin: 0;
-            bottom: 0;
-            margin-bottom: 3%;
+            background-color: white;
+            border-radius: 8px;
+            padding: 2px 4px 0px 5px;
 
-            p {
-                margin: 0;
-                height: fit-content;
+            &#fb {
+                color: #1877F2;
+                background-color: white;
+            }
+
+            &#ig {
+                background: rgb(249, 206, 52);
+                background: linear-gradient(45deg, rgba(249, 206, 52, 1) 0%, rgba(238, 42, 123, 1) 35%, rgba(98, 40, 215, 1) 100%);
+                color: white;
+            }
+
+            &#github {
+                background: #010409;
+                color: white;
+            }
+
+            &#linkedin {
+                color: #0072B1;
+                background: white;
+                background-clip: text;
+                padding: 0;
+                overflow: hidden;
+                position: relative;
+
+                .bi-linkedin {
+                    background: white;
+                    font-size: calc($iconSize + 16px);
+                    position: absolute;
+                }
             }
         }
     }
