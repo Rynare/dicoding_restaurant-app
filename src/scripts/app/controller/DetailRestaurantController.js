@@ -83,9 +83,9 @@ class DetailRestaurantController extends Controller {
         swalNotify({
           icon: "error",
           title: "Error!",
-          text: "Gagal mendapatkan data dari server",
+          text: "Harap lengkapi nama dan komentar anda",
         });
-        console.error("gagal mengambil data dari server:", error);
+        console.error("Data komentar tidak lengkap: ", error);
       }
       loaderTemplate.remove();
     });
@@ -110,7 +110,9 @@ class DetailRestaurantController extends Controller {
   renderReview(customerReviews) {
     $(".restaurant-reviews-list").html(
       customerReviews.map((customerReview) => {
-        const { name, review, date } = customerReview;
+        const {
+          name, review, date,
+        } = customerReview;
         return `
           <div class="review-bubble">
               <span></span>
